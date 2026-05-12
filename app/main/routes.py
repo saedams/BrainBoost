@@ -309,6 +309,7 @@ def foutenanalyse(leerling_id=None):
     analyzer = ErrorAnalyzer(leerling_id)
     analyzer.analyze()
     data = analyzer.get_data()
+    
 
     return render_template(
         "foutenanalyse.html",
