@@ -207,6 +207,7 @@ def leerling_detail(leerling_id):
     laagste_score = 100
     zwak_onderwerp = ""
     
+    
     for r in resultaten:
         if r["score"] < laagste_score:
             laagste_score = r["score"]
