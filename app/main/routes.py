@@ -262,9 +262,6 @@ def save_oefenopgaven(score, total_answered, incorrect_answers):
         (score, total_answered, json.dumps(incorrect_answers, ensure_ascii=False))
     )
 
-
-
-
 @bp.route("/oefenen-opgaven")
 def oefenen_opgaven():
     """
