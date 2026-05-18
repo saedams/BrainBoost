@@ -2,65 +2,175 @@
 
 {% block title %}Foutenanalyse{% endblock %}
 
-{% block header %}
-<h1>Foutenanalyse</h1>
-<p class="subtext">Inzicht in je meest gemaakte fouten en verbeterpunten</p>
-{% endblock %}
-
 {% block content %}
 
-<div class="card">
-    <h2>Foutendistributie</h2>
-    <canvas id="foutenChart"></canvas>
-</div>
+<div class="fout-dashboard-container">
+    
+    <!-- PAGINA TITEL -->
+    <!-- Hoofdtitel van de foutenanalyse pagina met beschrijving -->
+    <div class="fout-dashboard-header">
+        <h1 class="fout-dashboard-title">Foutenanalyse</h1>
+        <p class="fout-dashboard-subtitle">Inzicht in je meest gemaakte fouten en verbeterpunten</p>
+    </div>
 
-<div class="card">
-    <h2>Meest gemaakte fouten</h2>
+    <!-- FILTER SECTIE -->
+    <!-- Hiermee kan de leerling fouten filteren per vak -->
+    <div class="fout-filter-section">
+        <div class="fout-filter-card">
+            <h3 class="fout-filter-title">Filter op vak</h3>
+            <form method="get" action="{{ request.path }}" class="fout-filter-form">
+                {% if current_student_id %}
+                    <input type="hidden" name="leerling_id" value="{{ current_student_id }}">
+                {% endif %}
+                <select name="subject_id" class="fout-filter-select" onchange="this.form.submit()">
+                    <option value="">Alle vakken</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}" {% if subject.id == selected_subject_id %}selected{% endif %}>
+                            {{ subject.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
 
-    {% if fouten %}
-        {% for fout in fouten %}
-            <div class="fout-item">
-                <div class="fout-header">
-                    <strong>{{ fout.categorie }}</strong>
-                    <span>{{ fout.percentage }}%</span>
-                </div>
+    <!-- TOP SECTIE: FOUTENDISTRIBUTIE EN TOP FOUTEN -->
+    <!-- Deze sectie toont links de foutendistributie grafiek en rechts de meest gemaakte fouttypes -->
+    <div class="fout-dashboard-top-section">
 
-                <div class="progress-bar">
-                    <div class="progress" style="width: {{ fout.percentage }}%;"></div>
-                </div>
+        <!-- LINKER KOLOM: FOUTENDISTRIBUTIE GRAFIEK KAART -->
+        <!-- Bevat horizontale bar chart met fouten verdeeld per vak -->
+        <div class="fout-dashboard-card fout-chart-card">
+            <div class="fout-card-header">
+                <h2 class="fout-card-title">Foutendistributie</h2>
+            </div>
 
-                {% if fout.details %}
-                    <ul class="details">
-                        {% for detail in fout.details %}
-                            <li>{{ detail.naam }} - {{ detail.aantal }} keer</li>
-                        {% endfor %}
-                    </ul>
+            <!-- CHART.JS CANVAS ELEMENT -->
+            <!-- Hier wordt de foutendistributie grafiek ingetekend via JavaScript -->
+            <div class="fout-chart-container">
+                <canvas id="foutenChart" role="img" aria-label="Foutendistributie per vak"></canvas>
+            </div>
+        </div>
+
+
+        <!-- RECHTER KOLOM: TOP FOUTEN OVERZICHT KAART -->
+        <!-- Toont progress bars met meest voorkomende fouttypes -->
+        <div class="fout-dashboard-card fout-overview-card">
+            <div class="fout-card-header">
+                <h2 class="fout-card-title">Top Fouten Overzicht</h2>
+            </div>
+
+            <div class="fout-card-content">
+                {% if common_mistakes %}
+                 <!-- LOOP DOOR MEEST VOORKOMENDE FOUTEN -->
+                    <!-- Elke fout krijgt een progress bar met aantal keer gemaakt -->
+                    {% for mistake in common_mistakes %}
+                        <div class="fout-progress-item">
+                            <div class="fout-progress-header">
+                                <span class="fout-progress-name">{{ mistake.mistake_type }}</span>
+                                <span class="fout-progress-count">{{ mistake.count }}x</span>
+                            </div>
+                            <div class="fout-progress-bar-container">
+                                <div class="fout-progress-bar" style="width: {{ (mistake.count / common_mistakes[0].count * 100)|round }}%; background: linear-gradient(90deg, #e57373, #f06292);"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="fout-no-data">Geen fouten gevonden.</p>
                 {% endif %}
             </div>
-        {% endfor %}
-    {% else %}
-        <p>Geen fouten gevonden.</p>
-    {% endif %}
+        </div>
+    </div>
+      <!-- AANBEVELING SECTIE -->
+    <!-- Toont een persoonlijke aanbeveling op basis van de meest voorkomende fouten -->
+    <div class="fout-recommendation-section">
+        <div class="fout-recommendation-card">
+            <div class="fout-recommendation-icon">💡</div>
+            <div class="fout-recommendation-content">
+                <h3 class="fout-recommendation-title">Persoonlijke Aanbeveling</h3>
+                <p class="fout-recommendation-text">{{ recommendation }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOUT DETAILS SECTIE -->
+    <!-- Geeft uitleg per fouttype zodat de leerling weet wat verbeterd moet worden -->
+    <div class="fout-details-section">
+        <h2 class="fout-details-section-title">Fout Details</h2>
+        <p class="fout-details-section-description">Meer informatie over elk fouttype</p>
+
+        <div class="fout-details-grid">
+            {% if common_mistakes %}
+                <!-- LOOP DOOR ALLE FOUTTYPES -->
+                <!-- Elke fout krijgt een detail kaart met beschrijving en tips -->
+                {% for mistake in common_mistakes %}
+                    <div class="fout-detail-card">
+
+               <!-- DETAIL KAART HEADER -->
+                        <!-- Bevat fouttype naam en aantal keren gemaakt -->
+                        <div class="fout-detail-header">
+                            <h4 class="fout-detail-name">{{ mistake.mistake_type }}</h4>
+                            <span class="fout-detail-count">{{ mistake.count }}x</span>
+                        </div>     
+                        
+                        <!-- DETAIL KAART INHOUD -->
+                        <!-- Beschrijving en tips voor dit fouttype -->
+                        <div class="fout-detail-body">
+                            {% set mistake_type = mistake.mistake_type|trim %}
+                            {% set mistake_descriptions = {
+                                'Berekeningsfout': 'Een berekeningsfout ontstaat wanneer er een fout wordt gemaakt in de wiskundige berekening zelf.',
+                                'Formulefout': 'Een formulefout betekent dat de verkeerde formule of methode is gebruikt om het probleem op te lossen.',
+                                'Afrondingsfout': 'Afrondingsfouten gebeuren wanneer getallen niet correct worden afgerond volgens de regels.',
+                                'Stappen ontbreken': 'Soms worden belangrijke tussenstappen in de oplossing overgeslagen.',
+                                'Leesfout': 'Een leesfout ontstaat wanneer de opdracht of gegevens niet correct worden gelezen.',
+                                'Eenhedenfout': 'Eenhedenfouten gebeuren wanneer de eenheden (zoals meter, seconde) niet correct worden gebruikt.',
+                                'Grafiekfout': 'Een grafiekfout ontstaat wanneer er fouten worden gemaakt bij het tekenen of interpreteren van grafieken.'
+                            } %}
+                            {% set mistake_tips = {
+                                'Berekeningsfout': 'Controleer je berekening stap voor stap en reken het antwoord opnieuw na.',
+                                'Formulefout': 'Controleer eerst welke formule bij de vraag hoort.',
+                                'Afrondingsfout': 'Let goed op decimalen en afrondingsregels.',
+                                'Stappen ontbreken': 'Schrijf alle tussenstappen duidelijk op.',
+                                'Leesfout': 'Lees de vraag rustig opnieuw en markeer belangrijke woorden.',
+                                'Eenhedenfout': 'Controleer altijd of je de juiste eenheden gebruikt.',
+                                'Grafiekfout': 'Kijk goed naar de assen en schaalverdeling van de grafiek.'
+                            } %}
+
+                            <p class="fout-detail-description">
+                                {{ mistake_descriptions[mistake_type] if mistake_type in mistake_descriptions else 'Dit type fout vereist aandacht en oefening.' }}
+                            </p>
+                            <div class="fout-detail-tip">
+                                <strong class="fout-tip-label">💡 Tip:</strong>
+                                {{ mistake_tips[mistake_type] if mistake_type in mistake_tips else 'Controleer je antwoord goed en oefen extra met dit fouttype.' }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="fout-no-data">Geen foutdetails beschikbaar.</p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 
-<div class="card aanbeveling">
-    <h2>Aanbeveling</h2>
-    <p>{{ aanbeveling }}</p>
-</div>
+                               
 
-<!-- Chart.js -->
+<!-- CHART.JS LIBRARY IMPORT -->
+<!-- Externe bibliotheek voor het tekenen van grafieken -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    // FOUTENDISTRIBUTIE GRAFIEK INITIALISATIE
+    // Deze code maakt een horizontale bar chart op basis van fouten per vak
+    
     const labels = [
-        {% for fout in fouten %}
-            "{{ fout.categorie }}",
+        {% for subject, data in mistakes_by_subject.items() %}
+            "{{ subject }}",
         {% endfor %}
     ];
-
-    const dataValues = [
-        {% for fout in fouten %}
-            {{ fout.percentage }},
+     const dataValues = [
+        {% for subject, data in mistakes_by_subject.items() %}
+            {{ data.percentage }},
         {% endfor %}
     ];
 
@@ -97,3 +207,9 @@
 </script>
 
 {% endblock %}
+           
+
+
+
+           
+

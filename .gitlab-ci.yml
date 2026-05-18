@@ -1,29 +1,14 @@
-# This file is based on a template, taken from 
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Docker.gitlab-ci.yml
-# Docker-in-Docker documentation: https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-# Set the environment variables in your project
-# Following https://www.digitalocean.com/community/tutorials/how-to-set-up-a-continuous-deployment-pipeline-with-gitlab-ci-cd-on-ubuntu-18-04
+﻿# Simpele GitLab CI/CD pipeline voor schoolproject
+# Draait automatisch bij push
 
-variables:
-  DEPLOY_MKDOCS: "true"
+image: python:3.10
 
-# NOTE: This job has to be called "pages" to be able to deploy to Gitlab Pages!
-pages:
-  image: python:3.9-slim
-  stage: build
-  when: always
-  tags:
-  - hva
-  before_script:
-  - time apt update && apt-get install -y git
-  - time pip install --upgrade pip
-  - time pip install -r docs/requirements.txt
-  - time git clone https://uva-hva.gitlab.host/hbo-ict/mdocotion.git mdocotion
-  - time cd mdocotion && python setup.py install && cd ..
+stages:
+  - test
+
+test_job:
+  stage: test
   script:
-  - time mkdocs build --site-dir public --config-file mkdocs.yml
-  artifacts:
-    paths:
-    - public
-  rules:
-  - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $DEPLOY_MKDOCS == "true"
+    - python -m pip install --upgrade pip
+    - python -m pip install --no-cache-dir -r requirements.txt
+    - python -m pytest tests/test_fout_analyse_service.py -v

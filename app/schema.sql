@@ -80,5 +80,51 @@ CREATE TABLE `fout` (
     FOREIGN KEY (`leerling_id`) REFERENCES `leerling`(`id`)
 );
 
+-- Nieuwe tabellen voor Foutenanalyse volgens OOP
+
+-- Subject tabel voor vakken
+CREATE TABLE `subject` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+-- Question tabel voor vragen
+CREATE TABLE `question` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `subject_id` INT NOT NULL,
+    `question_text` TEXT NOT NULL,
+    `solution_text` TEXT,
+    `difficulty` VARCHAR(50),
+    `max_score` INT NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`subject_id`) REFERENCES `subject`(`id`)
+);
+
+-- StudentAnswer tabel voor antwoorden van leerlingen
+CREATE TABLE `student_answer` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `student_id` INT NOT NULL,
+    `question_id` INT NOT NULL,
+    `student_answer` TEXT,
+    `score` INT NOT NULL,
+    `max_score` INT NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`student_id`) REFERENCES `leerling`(`id`),
+    FOREIGN KEY (`question_id`) REFERENCES `question`(`id`)
+);
+
+-- MistakeAnalysis tabel voor foutanalyse
+CREATE TABLE `mistake_analysis` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `student_answer_id` INT NOT NULL,
+    `mistake_type` VARCHAR(100) NOT NULL,
+    `feedback_text` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`student_answer_id`) REFERENCES `student_answer`(`id`)
+);
+
 
 

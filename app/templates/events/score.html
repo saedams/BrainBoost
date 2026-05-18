@@ -71,6 +71,12 @@
         <p class="score-dashboard-section-description">Zie je scores uitgesplitst per onderwerp</p>
     </div>
 
+    {% if data.error_message %}
+        <div class="score-debug-error">
+            <strong>Debug:</strong> {{ data.error_message }}
+        </div>
+    {% endif %}
+
     <!-- BOTTOM SECTIE: VAKKEN GRID -->
     <!-- Responsieve grid layout met elk vak in een kaart (4 kolommen op desktop, 1 op mobile) -->
     <div class="score-dashboard-subjects-grid">
@@ -121,7 +127,11 @@
             <!-- LEEG BERICHT -->
             <!-- Wordt weergegeven als er geen vakken zijn -->
             <div class="score-empty-state">
-                <p>Nog geen scores beschikbaar. Begin met een oefening om je eerste score te behalen!</p>
+                {% if data.error_message %}
+                    <p>{{ data.error_message }}</p>
+                {% else %}
+                    <p>Nog geen scores beschikbaar. Begin met een oefening om je eerste score te behalen!</p>
+                {% endif %}
             </div>
         {% endif %}
     </div>
@@ -216,6 +226,7 @@
     }
 })();
 </script>
+
 
 {% endblock %} 
    

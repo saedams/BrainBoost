@@ -1,0 +1,8 @@
+{
+    "git.enableSmartCommit": true,
+    "git.postCommitCommand": "push",
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.defaultCloneDirectory": "c:\\Users\\user\\Desktop",
+    "git.ignoreMissingGitWarning": true
+}

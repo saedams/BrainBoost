@@ -4,7 +4,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app.db import execute_query
 import json
 from app.main import bp
-from .error_analyzer import ErrorAnalyzer
+from app.services.fout_analyse_service import FoutAnalyseService, controller
+
+
+
+
+
+
 
 
 
@@ -35,19 +41,26 @@ def home():
     try:
         leerling_id = session.get("leerling_id", 1)
 
-        # 🔴 Foutenanalyse ophalen
+        #  Foutenanalyse ophalen via centrale service
         try:
-            analyzer = ErrorAnalyzer(leerling_id)
-            analyzer.analyze()
-            data = analyzer.get_data()
-            fouten = data.get("fouten", [])
-            aanbeveling = data.get("aanbeveling", "Blijf oefenen!")
+            service = FoutAnalyseService()
+            fa = service.get_fout_analyse_dashboard_data(leerling_id)
+            fa_dict = fa.to_dict() if hasattr(fa, 'to_dict') else dict(fa)
+            # Maak een eenvoudige lijst met categorie/percentage voor de home kaart
+            fouten = []
+            for subject, info in fa_dict.get('mistakes_by_subject', {}).items():
+                fouten.append({
+                    'categorie': subject,
+                    'percentage': info.get('percentage', 0),
+                    'details': info.get('mistakes', [])
+                })
+            aanbeveling = fa_dict.get('recommendation', 'Blijf oefenen!')
         except Exception as e:
-            print(f"⚠️ Fout bij ErrorAnalyzer: {e}")
+            print(f"⚠️ Fout bij FoutAnalyseService: {e}")
             fouten = []
             aanbeveling = "Oefenen maakt perfect!"
 
-        # 🟣 Skills (kan later uit database)
+        #  Skills (kan later uit database)
         skills = [
             {"name": "Tijdsbeheer", "score": 4, "trend": "up"},
             {"name": "Concentratie", "score": 3, "trend": "flat"},
@@ -55,7 +68,7 @@ def home():
             {"name": "Probleemoplossend", "score": 5, "trend": "up"},
         ]
 
-        # 🔵 Gemiddelde score berekenen
+        #  Gemiddelde score berekenen
         if fouten:
             gemiddelde_score = round(
                 10 - (sum(f["percentage"] for f in fouten) / len(fouten)) / 10, 1
@@ -113,12 +126,11 @@ def leerling_redirect():
 
 @bp.route("/aanbevelingen")
 def aanbevelingen():
-    """Render the recommendations page for students with tips and oefenopgaven."""
+    """Render the recommendations page for students with tips."""
 
     menu_items = [
         {"name": "Dashboard", "url": url_for('main.index'), "active": False},
         {"name": "Aanbevelingen", "url": url_for('main.aanbevelingen'), "active": True},
-        {"name": "Oefenen", "url": url_for('main.oefenen_opgaven'), "active": False},
     ]
 
     user = {
@@ -290,34 +302,49 @@ def oefenen_opgaven_resultaat():
 @bp.route("/foutenanalyse/<int:leerling_id>")
 def foutenanalyse(leerling_id=None):
     """
-    Foutenanalyse van een leerling.
+    Route voor foutenanalyse dashboard (backward compatible).
 
-    Werking:
-    - Haalt fouten op
-    - Groepeert per categorie
-    - Berekent percentages
-    - Genereert advies
-    
-    Kan aangeroepen worden met leerling_id als URL parameter,
-    of gebruikt de huidige ingelogde leerling.
+    Gebruikt dezelfde service als /fout-analyse voor compatibiliteit.
     """
-    # Als geen leerling_id wordt meegegeven, haal die op uit sessie
     if leerling_id is None:
         leerling_id = request.args.get("leerling_id", type=int)
-    
-    # Als nog steeds geen leerling_id, gebruik de sessie leerling
     if leerling_id is None:
         leerling_id = session.get("leerling_id", 1)
+
     
     analyzer = ErrorAnalyzer(leerling_id)
     analyzer.analyze()
     data = analyzer.get_data()
     
 
-    return render_template(
-        "foutenanalyse.html",
-        fouten=data["fouten"],
-        aanbeveling=data["aanbeveling"],
-        labels=data["labels"],
-        waarden=data["waarden"]
-    )
+    subject_id = request.args.get("subject_id", type=int)
+
+    from app.services.fout_analyse_service import controller
+    return controller.render_dashboard(leerling_id, subject_id)
+
+
+# DEFINITIE: FOUTENANALYSE ROUTE
+# Deze route toont de foutenanalysepagina voor de leerling.
+# De route verwerkt alleen de request-parameters, roept de serviceklasse aan
+# en geeft de opgehaalde analysegegevens door aan de Jinja-template.
+# Alle berekeningen en database-logica blijven binnen FoutAnalyseService.
+@bp.route("/fout-analyse")
+def fout_analyse():
+    """
+    Route voor foutenanalyse dashboard.
+    """
+    # De controller bepaalt de actieve leerling
+    subject_id = request.args.get("subject_id", type=int)
+
+    from app.services.fout_analyse_service import controller
+    return controller.render_dashboard(None, subject_id)
+
+
+@bp.route('/_debug_current_leerling')
+def _debug_current_leerling():
+    from app.utils.student_helper import get_current_leerling_id
+    try:
+        lid = get_current_leerling_id(None)
+    except Exception as e:
+        return f"error: {e}", 500
+    return f"current_leerling_id={lid}"

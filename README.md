@@ -37,6 +37,22 @@ Run tests met
 $ pytest
 ```
 
+## Git remotes
+
+In deze repository zijn de remotes expliciet benoemd als:
+
+- `github` voor GitHub
+- `gitlab` voor GitLab
+
+Gebruik altijd expliciet:
+
+```bash
+git push github main
+git push gitlab main
+```
+
+Zorg dat je beide remotes bijwerkt wanneer je wijzigingen op `main` hebt gemaakt.
+
 ## Studiehandleiding
 
 In de Studiehandleiding op de DLO staat beschreven welke competenties je gaat ontwikkelen en wat de leeruitkomsten zijn voor dit blok.

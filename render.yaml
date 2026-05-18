@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: teebaakeepoo79
+    runtime: python3
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:create_app()
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        value: DokkiePythoniAXRvULKWuFyfURRrG0YTOOTXswLJWpU
+      - key: API_URL
+        value: https://api.hbo-ict.cloud
+      - key: API_KEY
+        value: s2bima2526_teebaakeepoo79.IxpC5NUTWzwIdjNQ
+      - key: DATABASE
+        value: s2bima2526_teebaakeepoo79_live
+    plan: free

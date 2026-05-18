@@ -26,11 +26,10 @@
       <ul class="sidebar-list">
         <li><a href="{{ url_for('main.index') }}">Home</a></li>
         <li><a href="{{ url_for('events.index') }}">Events</a></li>
-        <li><a href="{{ url_for('main.foutenanalyse') }}">fout Analyseren</a></li>
-        <li><a href="{{ url_for('main.oefenen_opgaven') }}">Oefenen opgaven</a></li>
-        <li><a href="{{ url_for('main.aanbevelingen') }}">Aanbevelingen</a></li>
-        <li><a href="{{ url_for('main.leerlingen') }}">leerling </a></li>
-         <li><a href="{{ url_for('main.score') }}">Score</a></li>
+        <li><a href="{{ url_for('main.fout_analyse', leerling_id=current_leerling_id) }}">Foutenanalyse</a></li>
+        <li><a href="{{ url_for('main.aanbevelingen', leerling_id=current_leerling_id) }}">Aanbevelingen</a></li>
+        <li><a href="{{ url_for('main.leerlingen', leerling_id=current_leerling_id) }}">leerling </a></li>
+         <li><a href="{{ url_for('main.score', leerling_id=current_leerling_id) }}">Score</a></li>
         <li><a href="{{ url_for('contact.contact') }}">Contact & Support</a></li>
        
         

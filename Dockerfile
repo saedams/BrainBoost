@@ -8,6 +8,5 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["flask", "run", "--host", "0.0.0.0"]
-
-# CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:create_app()"]
+# Use gunicorn for production deployment
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:create_app()"]

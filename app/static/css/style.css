@@ -60,7 +60,7 @@ li {
   left: 0;
   width: 230px;
   height: 100vh;
-  background: linear-gradient(180deg, #1f3b6c, #2a4f8a);
+  background: linear-gradient(180deg, #a4c0f1, #a4c0f1);
   color: #fff;
   padding: 24px 16px;
   box-sizing: border-box;
@@ -73,7 +73,7 @@ li {
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #ffdd59;
+  color: #305e9f;
   letter-spacing: 0.4px;
 }
 
@@ -260,7 +260,7 @@ td.fitwidth {
 /* Global HTML styling */
 html {
   height: 100%;
-  background-color: #e6f2ff;
+  background-color: #f5f5f5;
   font-family: Arial, Helvetica, sans-serif;
   color: rgb(155, 70, 70);
 }
@@ -958,64 +958,6 @@ h1 {
   font-size: 14px;
 }
 
-/* CSS speciaal voor de pagina Oefenen Opgaven */
-/* Algemene pagina stijl (stijl van de hele pagina) */
-/* Algemene pagina stijl (stijl van de hele pagina) */
-.oefenen-opgaven {
-    font-family: Arial, sans-serif; /* Lettertype */
-    background: #f9f9f9;           /* Achtergrondkleur */
-    color: #333;                   /* Tekstkleur */
-    padding: 20px;                 /* Ruimte binnen de container */
-    display: flex;                 /* Flexbox gebruiken */
-    flex-direction: column;        /* Onder elkaar plaatsen */
-    align-items: center;           /* Inhoud centreren */
-}
-
-/* Titel van de pagina */
-.oefenen-opgaven h1 {
-    margin-bottom: 20px;           /* Ruimte onder de titel */
-    color: #2c3e50;               /* Kleur van de titel */
-}
-
-/* Stijl voor vraag en invoerveld */
-.oefenen-opgaven #question,
-.oefenen-opgaven #answer {
-    width: 100%;                   /* Volledige breedte */
-    max-width: 500px;              /* Maximale breedte */
-    padding: 12px;                 /* Binnenruimte */
-    border: 2px solid #00bcd4;     /* Randkleur */
-    border-radius: 6px;            /* Ronde hoeken */
-    text-align: center;            /* Tekst centreren */
-    margin-bottom: 10px;           /* Ruimte onder */
-}
-
-/* Extra stijl voor de vraag */
-.oefenen-opgaven #question {
-    background: #e0f7fa;           /* Achtergrondkleur */
-    font-size: 1.2em;              /* Grotere tekst */
-}
-
-/* Knop */
-.oefenen-opgaven #submit {
-    padding: 10px 20px;            /* Ruimte binnen de knop */
-    background: #00bcd4;           /* Achtergrondkleur */
-    color: #fff;                   /* Tekstkleur */
-    border: none;                  /* Geen rand */
-    border-radius: 5px;            /* Ronde hoeken */
-    cursor: pointer;               /* Muis pointer */
-}
-
-/* Hover effect voor knop */
-.oefenen-opgaven #submit:hover {
-    background: #0097a7;           /* Donkere kleur bij hover */
-}
-
-/* Feedback en score tekst */
-.oefenen-opgaven #feedback,
-.oefenen-opgaven p span {
-    font-weight: bold;             /*Vetgedrukte tekst */
-}
-
 /* Aanbevelingen page container layout */
 .aanbevelingen-container {                 /* wrapper for recommendation page sections */
   display: grid;                           /* use grid layout */
@@ -1255,6 +1197,597 @@ score-page-circle-subtext {
     font-size: 26px;
     font-weight: bold;
     margin-top: 10px;
+}
+
+/* ===== FOUTENANALYSE PAGINA ===== */
+/* Deze CSS regelt de volledige styling van de foutenanalyse pagina. 
+De pagina bevat een dashboard layout met grafieken, filters, aanbevelingen, progress bars en detailkaarten voor fouttypes. */
+
+/* Hoofdcontainer van de pagina */
+.fout-dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/*
+Toont de titel en subtitel van de foutenanalyse pagina.
+Maakt de titel groot, duidelijk en consistent met de Score pagina design.
+Heeft een subtiele blauwe rand eronder voor visuele scheiding.
+*/
+.fout-dashboard-header {
+  margin-bottom: 35px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(30, 136, 229, 0.2);
+}
+
+/*
+Styling voor de grote pagina titel.
+Maakt de tekst groot (36px) en donkerblauw zodat het opvalt.
+*/
+.fout-dashboard-title {
+  margin: 0 0 10px 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1f3b6c;
+  letter-spacing: -0.5px;
+}
+
+/*
+Styling voor de ondertitel onder de pagina titel.
+Geeft context en uitleg over wat de leerling op deze pagina kan doen.
+*/
+.fout-dashboard-subtitle {
+  margin: 0;
+  font-size: 16px;
+  color: #5d6d84;
+  font-weight: 400;
+}
+
+/*
+Bevat de filterkaart waarmee de leerling fouten per vak kan filteren.
+Dit is een apart container element rond de filterkaart.
+*/
+.fout-filter-section {
+  margin-bottom: 30px;
+}
+
+/*
+Styling voor de filterkaart bovenaan de pagina.
+Hiermee kan de leerling fouten filteren per vak.
+Heeft een witte achtergrond, afgeronde hoeken en een subtiele schaduw.
+*/
+.fout-filter-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: inline-block;
+}
+
+/*
+Styling voor de titel van de filterkaart.
+Laat zien wat de dropdown is voor.
+*/
+.fout-filter-title {
+  margin: 0 0 15px 0;
+  font-size: 16px;
+  color: #1f3b6c;
+  font-weight: 600;
+}
+
+/*
+Formulier container voor de filter dropdown.
+Dit omvat het form element dat de filter bevat.
+*/
+.fout-filter-form {
+  display: inline-block;
+}
+
+/*
+Styling voor de vakselectie dropdown.
+Gebruiker kan hier een vak selecteren om fouten op te filteren.
+Heeft hover en focus states voor betere interactie feedback.
+*/
+.fout-filter-select {
+  padding: 10px 15px;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #2f3f60;
+  min-width: 220px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.fout-filter-select:hover {
+  border-color: #1e88e5;
+}
+
+.fout-filter-select:focus {
+  outline: none;
+  border-color: #1e88e5;
+  box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.1);
+}
+
+/*
+Twee-kolom grid layout voor de top sectie van de foutenanalyse pagina.
+Links staat de foutendistributie grafiek, rechts het top fouten overzicht.
+Op smaller schermen wordt dit een enkele kolom.
+*/
+.fout-dashboard-top-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/*
+Basisstijl voor alle kaarten in het foutenanalyse dashboard.
+Dit zijn witte kaarten met afgeronde hoeken en subtiele schaduwen.
+Hebben hover effecten voor betere interactie feedback.
+*/
+.fout-dashboard-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.fout-dashboard-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+/*
+Header sectie van dashboard kaarten met titel.
+Dit is het bovenste gedeelte van elke kaart.
+*/
+.fout-card-header {
+  margin-bottom: 20px;
+}
+
+.fout-card-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f3b6c;
+}
+
+/*
+Inhoudsgedeelte van dashboard kaarten.
+Dit bevat de eigenlijke data in de kaarten.
+*/
+.fout-card-content {
+  /* Basis styling voor kaart inhoud */
+}
+
+/*
+Specifieke styling voor de foutendistributie chart kaart.
+Dit is de linkerkaart in de top sectie.
+*/
+.fout-chart-card {
+  /* Specifieke styling voor chart kaart */
+}
+
+/*
+Container voor het Chart.js canvas element.
+Geeft de grafiek een vaste hoogte zodat deze consistent weergegeven wordt.
+*/
+.fout-chart-container {
+  position: relative;
+  height: 280px;
+  margin-top: 15px;
+}
+
+/*
+Specifieke styling voor de top fouten overzicht kaart.
+Dit is de rechterkaart in de top sectie.
+Toont de meest voorkomende fouttypes met progress bars.
+*/
+.fout-overview-card {
+  /* Specifieke styling voor overzicht kaart */
+}
+
+/*
+Individueel progress item in de top fouten overzicht.
+Elke fout krijgt één progress item met naam, aantal en een gekleurde bar.
+*/
+.fout-progress-item {
+  margin-bottom: 22px;
+}
+
+/*
+Header van progress item met naam en aantal fouten.
+Toont het fouttype naam links en het aantal keer gemaakt rechts.
+*/
+.fout-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/*
+Naam van het fouttype in het progress item.
+Dit is de linkerwaarde in de progress item header.
+*/
+.fout-progress-name {
+  font-weight: 500;
+  color: #2f3f60;
+  font-size: 14px;
+}
+
+/*
+Aantal voorkomsten van het fouttype.
+Dit is de rechterwaarde in de progress item header.
+Weergegeven in rood om op te vallen.
+*/
+.fout-progress-count {
+  font-weight: 600;
+  color: #e57373;
+  font-size: 14px;
+}
+
+/*
+Achtergrond container voor de progress bar.
+Dit is de grijze achtergrond waar de gekleurde bar in loopt.
+*/
+.fout-progress-bar-container {
+  background: #ecf0f1;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+/*
+Gekleurde progress bar die de relatieve frequentie van fouten toont.
+De breedte is berekend op basis van het aantal fouten.
+Heeft een gradient kleur van rood naar roze.
+*/
+.fout-progress-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/*
+Bevat de grote aanbevelingskaart met persoonlijke verbeteradvies.
+Dit is een aparte sectie met een opvallende gradient achtergrond.
+*/
+.fout-recommendation-section {
+  margin-bottom: 40px;
+}
+
+/*
+Gradient kaart met persoonlijke aanbeveling voor verbetering.
+Deze kaart geeft de leerling persoonlijk advies op basis van hun fouten.
+Heeft een opvallende geel-oranje gradient achtergrond.
+*/
+.fout-recommendation-card {
+  background: linear-gradient(135deg, #ffe082 0%, #ffb74d 100%);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/*
+Emoji icoon in de aanbevelingskaart.
+Dit is meestal een 💡 (gloeilamp) icoon die verwijst naar tips/advies.
+*/
+.fout-recommendation-icon {
+  font-size: 48px;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
+
+/*
+Tekstgedeelte van de aanbevelingskaart.
+Dit bevat de titel en advistekst van de aanbeveling.
+*/
+.fout-recommendation-content {
+  flex: 1;
+}
+
+/*
+Titel van de aanbevelingskaart.
+Bijvoorbeeld "Persoonlijke Aanbeveling".
+*/
+.fout-recommendation-title {
+  margin: 0 0 12px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3436;
+}
+
+/*
+Advistekst in de aanbevelingskaart.
+Dit is de eigenlijke aanbevelingsboodschap voor de leerling.
+*/
+.fout-recommendation-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4a4a4a;
+}
+
+/*
+Sectie met detail kaarten voor elk fouttype.
+Dit bevat alle detail kaarten met uitleggen en tips per fouttype.
+*/
+.fout-details-section {
+  margin-bottom: 40px;
+}
+
+/*
+Titel voor de fout details sectie.
+Dit zegt de leerling wat ze hieronder kunnen verwachten.
+*/
+.fout-details-section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1f3b6c;
+  margin: 0 0 8px 0;
+}
+
+/*
+Beschrijvende tekst voor de details sectie.
+Dit geeft extra context over de detail kaarten hieronder.
+*/
+.fout-details-section-description {
+  font-size: 14px;
+  color: #5d6d84;
+  margin: 0 0 24px 0;
+  font-weight: 400;
+}
+
+/*
+Responsieve grid layout voor de fout detail kaarten.
+Automatische kolommen die zich aanpassen aan schermgrootte.
+*/
+.fout-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+/*
+Kaart die per fouttype uitleg, aantal fouten en een verbetertip toont.
+Dit zijn individuele kaarten voor elk fouttype dat de leerling maakt.
+Hebben een blauwe top rand en hover effecten.
+*/
+.fout-detail-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border-top: 4px solid #1e88e5;
+}
+
+.fout-detail-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+  border-top-color: #1565c0;
+}
+
+/*
+Header van detail kaart met fouttype naam en aantal.
+Dit is het bovenste gedeelte van de detail kaart.
+Toont de foutnaam links en het aantal keer gemaakt rechts.
+*/
+.fout-detail-header {
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*
+Naam van het fouttype in de detail kaart.
+Dit is de linkerwaarde in de detail kaart header.
+*/
+.fout-detail-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f3b6c;
+}
+
+/*
+Badge die het aantal keren gemaakt toont.
+Dit is de rechterwaarde in de detail kaart header.
+Heeft een lichtblauw achtergrond met blauw tekst.
+*/
+.fout-detail-count {
+  background: #e3f2fd;
+  color: #1e88e5;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/*
+Inhoudsgedeelte van detail kaart.
+Dit bevat de beschrijving en tips voor het fouttype.
+*/
+.fout-detail-body {
+  padding: 20px 24px;
+}
+
+/*
+Beschrijving en uitleg van het fouttype.
+Dit is de hoofdtekst die uitlegt wat dit fouttype is.
+*/
+.fout-detail-description {
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: #555;
+  font-size: 14px;
+}
+
+/*
+Sectie met verbeteradvies en tips voor dit fouttype.
+Dit is een speciale box met een gekleurde linkerrand.
+Geeft concrete tips hoe de leerling kan verbeteren.
+*/
+.fout-detail-tip {
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border-left: 4px solid #ffb74d;
+  font-size: 14px;
+}
+
+/*
+Label voor de tip sectie.
+Dit is meestal een icoon (💡) gevolgd door "Tip:".
+*/
+.fout-tip-label {
+  color: #ff9800;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+/*
+Bericht weergegeven wanneer geen fouten beschikbaar zijn.
+Dit is een lege staat message voor als er geen data is.
+*/
+.fout-no-data {
+  text-align: center;
+  color: #95a5a6;
+  font-style: italic;
+  margin: 40px 0;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/*
+==================================================
+RESPONSIVE DESIGN FOUTENANALYSE
+==================================================
+Media queries zorgen ervoor dat de foutenanalyse pagina op alle schermformaten goed werkt.
+Dit omvat aanpassingen voor tablets en mobiele apparaten.
+*/
+
+/*
+Tablet breakpoint aanpassingen.
+Aanpassingen voor schermen van 1024px en kleiner.
+De twee-kolom layout wordt hier één kolom.
+*/
+@media (max-width: 1024px) {
+  .fout-dashboard-top-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .fout-details-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .fout-dashboard-title {
+    font-size: 28px;
+  }
+
+  .fout-details-section-title {
+    font-size: 20px;
+  }
+}
+
+/*
+Mobile breakpoint aanpassingen.
+Aanpassingen voor schermen van 768px en kleiner.
+Layout wordt meer staand gericht en tekst kleiner.
+*/
+@media (max-width: 768px) {
+  .fout-dashboard-container {
+    padding: 20px 15px;
+  }
+
+  .fout-dashboard-card {
+    padding: 20px;
+  }
+
+  .fout-recommendation-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 24px;
+  }
+
+  .fout-recommendation-icon {
+    flex-shrink: 1;
+  }
+
+  .fout-details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .fout-detail-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .fout-dashboard-title {
+    font-size: 24px;
+  }
+
+  .fout-details-section-title {
+    font-size: 18px;
+  }
+
+  .fout-filter-select {
+    min-width: 150px;
+    width: 100%;
+  }
+
+  .fout-chart-container {
+    height: 240px;
+  }
+}
+
+/*
+Zeer kleine mobile breakpoint aanpassingen.
+Aanpassingen voor zeer kleine schermen van 480px en kleiner.
+Verdere aanpassingen voor compacte weergave.
+*/
+@media (max-width: 480px) {
+  .fout-dashboard-container {
+    padding: 15px 10px;
+  }
+
+  .fout-dashboard-card {
+    padding: 15px;
+  }
+
+  .fout-card-header h2 {
+    font-size: 16px;
+  }
+
+  .fout-dashboard-title {
+    font-size: 20px;
+  }
+
+  .fout-details-section-title {
+    font-size: 16px;
+  }
+
+  .fout-recommendation-title {
+    font-size: 18px;
+  }
+
+  .fout-recommendation-text {
+    font-size: 14px;
+  }
 }
 
 /*
@@ -1579,4 +2112,204 @@ score-page-circle-subtext {
 .progress {
     background: red;
     height: 100%;
+}
+
+/* ===== GLOBAL RESPONSIVE ENHANCEMENTS ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+img, svg, canvas, video, iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sidebar {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.main {
+  margin-left: 250px;
+  padding: 28px;
+  min-height: calc(100vh - 40px);
+}
+
+.search-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+#searchInput, #klasFilter {
+  max-width: 100%;
+  width: 250px;
+}
+
+.leerlingen-lijst {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+td, th {
+  word-wrap: break-word;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    padding: 18px 14px;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 22px 16px 30px;
+  }
+
+  .sidebar-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .sidebar-list li {
+    width: auto;
+  }
+
+  .score-dashboard-top-section,
+  .score-page-top-grid,
+  .cards,
+  .aanbevelingen-container {
+    grid-template-columns: 1fr;
+  }
+
+  .score-dashboard-subjects-grid,
+  .score-page-bottom-grid {
+    grid-template-columns: repeat(3, minmax(180px, 1fr));
+  }
+
+  .search-panel {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar-list {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .main {
+    padding: 18px 12px 24px;
+  }
+
+  .search-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #searchInput,
+  #klasFilter,
+  .login-form input,
+  .login-form select,
+  .login-form button {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .score-dashboard-subjects-grid,
+  .score-page-bottom-grid,
+  .cards,
+  .aanbevelingen-container {
+    grid-template-columns: 1fr;
+  }
+
+  .score-dashboard-title,
+  .score-dashboard-section-title,
+  .score-page-title,
+  .score-page-section-title,
+  .fout-dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  footer {
+    position: relative;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 14px 10px 20px;
+  }
+
+  .search-panel,
+  .sidebar-list,
+  .score-dashboard-subjects-grid,
+  .score-page-bottom-grid,
+  .cards,
+  .aanbevelingen-container {
+    gap: 12px;
+  }
+
+  .score-dashboard-card,
+  .score-page-card,
+  .fout-dashboard-card,
+  .card,
+  .login-card {
+    padding: 16px;
+  }
+
+  .score-circle {
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-circle-value,
+  .score-subject-value,
+  .score-page-value {
+    font-size: 1.75rem;
+  }
+
+  .sidebar {
+    padding: 16px 12px;
+  }
 }
