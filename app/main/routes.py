@@ -14,8 +14,6 @@ def index():
     return redirect(url_for('main.home'))
 
 
-
-
 @bp.route("/over-mij")
 def about_me():
     """
