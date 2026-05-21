@@ -13,6 +13,19 @@
   {% endif %}
 </section>
 
+<section class="student-score">
+  <h3>Score overzicht</h3>
+  {% if score_info.has_answer_scores %}
+    <p><strong>Gemiddelde score:</strong> {{ score_info.average_score }} / 10</p>
+    <p>{{ score_info.score_message }}</p>
+    {% if score_info.trend %}
+      <p><strong>Laatste scores:</strong> {{ score_info.trend | join(', ') }}</p>
+    {% endif %}
+  {% else %}
+    <p>Geen scoregegevens gevonden in <code>student_answer</code>. De score wordt nog niet opgeslagen of er zijn geen opdrachten gemaakt.</p>
+  {% endif %}
+</section>
+
 <section class="student-results">
   <h3>Resultaten</h3>
   {% if resultaten %}
@@ -34,6 +47,37 @@
     </table>
   {% else %}
     <p>Geen resultaten gevonden voor deze leerling.</p>
+  {% endif %}
+</section>
+
+<section class="student-foutanalyse">
+  <h3>Foutenanalyse</h3>
+  {% if foutanalyse.common_mistakes %}
+    <p><strong>Top fouten:</strong></p>
+    <ul>
+      {% for mistake in foutanalyse.common_mistakes %}
+        <li>{{ mistake.mistake_type }}: {{ mistake.count }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Geen foutanalysegegevens gevonden voor deze leerling.</p>
+  {% endif %}
+
+  <p><strong>Aanbeveling:</strong> {{ foutanalyse.recommendation }}</p>
+
+  {% if foutanalyse.mistakes_by_subject %}
+    <div class="analysis-subject-list">
+      {% for subject, info in foutanalyse.mistakes_by_subject.items() %}
+        <div class="analysis-subject-block">
+          <h4>{{ subject }} {% if info.percentage %}({{ info.percentage }}%) {% endif %}</h4>
+          <ul>
+            {% for mistake in info.mistakes %}
+              <li>{{ mistake.mistake_type }}: {{ mistake.count }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    </div>
   {% endif %}
 </section>
 
