@@ -1,0 +1,73 @@
+
+{% extends "base.html" %}
+
+{% block title %}Registreren{% endblock %}
+
+{% block content %}
+  <!-- Registration form in centered card -->
+  <div class="login-card">
+    <h1>Create Account</h1>
+
+    <!-- Show flash messages (errors/success) if present -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for message in messages %}
+            <div class="flash-item">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Registration form: POST to /register route -->
+    <form method="post" class="login-form">
+      <!-- Username input -->
+      <label for="username">Username:</label>
+      <input 
+        id="username" 
+        name="username" 
+        type="text" 
+        placeholder="Choose a username" 
+        required 
+      />
+
+      <!-- Email input -->
+      <label for="email">Email:</label>
+      <input 
+        id="email" 
+        name="email" 
+        type="email" 
+        placeholder="Your email" 
+        required 
+      />
+
+      <!-- Password input -->
+      <label for="password">Password:</label>
+      <input 
+        id="password" 
+        name="password" 
+        type="password" 
+        placeholder="At least 6 characters" 
+        required 
+      />
+
+      <!-- Password confirmation input (must match password) -->
+      <label for="password_confirm">Confirm Password:</label>
+      <input 
+        id="password_confirm" 
+        name="password_confirm" 
+        type="password" 
+        placeholder="Repeat password" 
+        required 
+      />
+
+      <!-- Submit button -->
+      <button type="submit">Create Account</button>
+    </form>
+
+    <!-- Link to login for existing teachers -->
+    <p style="text-align: center; margin-top: 16px;">
+      Already have an account? <a href="{{ url_for('main.login') }}">Log in here</a>
+    </p>
+  </div>
+{% endblock %}
