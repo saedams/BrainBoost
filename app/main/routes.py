@@ -120,7 +120,8 @@ def aanbevelingen():
     ]
 
     user = {
-        "name": session.get("user", "Gast")
+        "name": session.get("user", "Gast"),
+        "role": session.get("role", "leerling")
     }
 
     try:

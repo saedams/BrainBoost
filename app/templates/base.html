@@ -33,6 +33,10 @@
         <li><a href="{{ url_for('contact.contact') }}">Contact & Support</a></li>
        
         
+        <!-- Logout link (only if logged in) -->
+        {% if session.get('role') %}
+          <li><a href="{{ url_for('main.logout') }}">Uitloggen ({{ session.get('role') }})</a></li>
+        {% endif %}
       </ul>
     </aside>
 
