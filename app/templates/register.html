@@ -1,37 +1,4 @@
-<!--
-  Template: register.html
-  Purpose: Teacher account registration form
-  
-  Description:
-    Registration page for new teachers. Accepts username, email,
-    and password (with confirmation). Form post to /register route which
-    validates input and password hashing.
-  
-  Extends: base.html
-  
-  Form action: POST /register
-  Form inputs:
-    - username (text): Unique teacher username
-    - email (email): Email address
-    - password (password): Password (min 6 chars)
-    - password_confirm (password): Password confirmation
-  
-  Validation (server-side):
-    - All fields required
-    - Passwords must match
-    - Password min 6 characters
-    - Username/email must be unique
-  
-  Flash messages:
-    - "Fill in all fields"
-    - "Passwords do not match"
-    - "Password must be at least 6 characters long"
-    - "Username or email already exists"
-    - "Account created! You can now log in."
-  
-  Routes:
-    - Login link: /login (for existing teachers)
--->
+
 {% extends "base.html" %}
 
 {% block title %}Registreren{% endblock %}

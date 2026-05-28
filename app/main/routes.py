@@ -6,21 +6,12 @@ import json
 from app.main import bp
 from app.services.fout_analyse_service import FoutAnalyseService, controller
 
-
-
-
-
-
-
-
 @bp.route("/")
 def index():
     """
     Homepage - Redirect naar dashboard.
     """
     return redirect(url_for('main.home'))
-
-
 
 
 @bp.route("/over-mij")
@@ -297,7 +288,7 @@ def oefenen_opgaven_resultaat():
 def foutenanalyse(leerling_id=None):
     """
     Route voor foutenanalyse dashboard (backward compatible).
-    
+
     Gebruikt dezelfde service als /fout-analyse voor compatibiliteit.
     """
     # Laat controller de leerling-id bepalen (url > query > session > demo)
