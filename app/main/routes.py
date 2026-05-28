@@ -300,23 +300,7 @@ def foutenanalyse(leerling_id=None):
     
     Gebruikt dezelfde service als /fout-analyse voor compatibiliteit.
     """
-<<<<<<< Updated upstream
     # Laat controller de leerling-id bepalen (url > query > session > demo)
-=======
-    if leerling_id is None:
-        leerling_id = request.args.get("leerling_id", type=int)
-    if leerling_id is None:
-        leerling_id = session.get("leerling_id", 1)
-<<<<<<< HEAD
-=======
-    
-    analyzer = ErrorAnalyzer(leerling_id)
-    analyzer.analyze()
-    data = analyzer.get_data()
-    
->>>>>>> 3ab40b3690c360264dde961cf7c16efae0283fe5
-
->>>>>>> Stashed changes
     subject_id = request.args.get("subject_id", type=int)
 
     from app.services.fout_analyse_service import controller
