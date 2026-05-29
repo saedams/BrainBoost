@@ -11,6 +11,13 @@
 
 <!-- ===== ZOEK/FILTER PANEL ===== -->
 <div class="search-panel">
+  <!-- KLAS SNELFILTER KNOPPEN -->
+  <div class="class-filter-buttons">
+    <button type="button" onclick="setClassFilter('')">Alle</button>
+    <button type="button" onclick="setClassFilter('3')">Klas 3</button>
+    <button type="button" onclick="setClassFilter('4')">Klas 4</button>
+  </div>
+
   <!-- ZOEKBALK: Zoek op naam en klas -->
   <div class="search-input">
     <label for="searchInput">Zoek op naam:</label>
@@ -99,12 +106,26 @@ function filterLeerlingen() {
     // Controleer search text match (leeg = match alles)
     const matchText = zoektekst === '' || tekst.includes(zoektekst);
     
-    // Controleer klas filter match (leeg = match alles)
-    const matchKlas = klasFilter === '' || klas === klasFilter.toLowerCase();
+    // Specifiek filter voor klas 3 of 4
+    let matchKlas = false;
+    if (klasFilter === '') {
+      matchKlas = true;
+    } else if (klasFilter === '3') {
+      matchKlas = klas.startsWith('3');
+    } else if (klasFilter === '4') {
+      matchKlas = klas.startsWith('4');
+    } else {
+      matchKlas = klas === klasFilter.toLowerCase();
+    }
 
     // Wij item als beide filters matchen, anders verbergen
     items[i].style.display = (matchText && matchKlas) ? '' : 'none';
   }
+}
+
+function setClassFilter(value) {
+  document.getElementById('klasFilter').value = value;
+  filterLeerlingen();
 }
 </script>
 
