@@ -23,4 +23,5 @@ deploy_to_railway:
     - master
   script:
     - npm install -g @railway/cli
-    - railway up --detach
+    # Mijn unieke Project ID is nu toegevoegd
+    - railway up --detach --project 5206b091-0299-4780-998a-249d852588da
