@@ -9,6 +9,7 @@ class LeerlingDetailService:
     Service voor het ophalen van alle data die de leerling detail pagina nodig heeft.
     """
 
+
     def __init__(self, leerling_id):
         self.leerling = Leerling.from_id(leerling_id)
         self.foutanalyse_service = FoutAnalyseService()
@@ -74,6 +75,7 @@ class LeerlingDetailService:
             "foutanalyse": foutanalyse,
             "score_info": score_info,
         }
+
 
 
 class LeerlingDetailController:
