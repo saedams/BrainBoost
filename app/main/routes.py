@@ -5,7 +5,6 @@ from app.db import execute_query
 import json
 from app.main import bp
 from app.services.fout_analyse_service import FoutAnalyseService, controller
-from app.services.leerling_detail import LeerlingDetailController
 
 @bp.route("/")
 def index():
@@ -176,18 +175,58 @@ def leerling_detail(leerling_id):
     """
     Detailpagina van één leerling.
 
-    Deze route gebruikt de controller en service in aparte bestanden.
+    Bevat:
+    - Basisgegevens
+    - Resultaten
+    - Foutenanalyse
+    - Uitleg en advies
     """
-    try:
-        controller = LeerlingDetailController(leerling_id)
-        return controller.render()
-    except ValueError:
-        flash(f"Leerling met id {leerling_id} niet gevonden", "error")
-        return redirect(url_for('main.leerlingen'))
-    except Exception as exc:
-        print(f"❌ Fout in leerling_detail route: {exc}")
-        flash("Er ging iets mis bij het laden van de leerling.", "error")
-        return redirect(url_for('main.leerlingen'))
+    leerling = execute_query(
+        "SELECT * FROM leerling WHERE id = ?",
+        (leerling_id,)
+    )[0]
+
+    resultaten = execute_query(
+        "SELECT onderwerp, score FROM resultaat WHERE leerling_id = ?",
+        (leerling_id,)
+    )
+
+    fouten = execute_query(
+        "SELECT categorie, subcategorie, aantal FROM fout WHERE leerling_id = ?",
+        (leerling_id,)
+    )
+
+    categorieen = {}
+    for fout in fouten:
+        cat = fout["categorie"]
+        categorieen.setdefault(cat, []).append(fout)
+
+    laagste_score = 100
+    zwak_onderwerp = ""
+    
+    
+    for r in resultaten:
+        if r["score"] < laagste_score:
+            laagste_score = r["score"]
+            zwak_onderwerp = r["onderwerp"]
+
+    if laagste_score < 50:
+        uitleg = f"Low score in {zwak_onderwerp}"
+        advies = f"Practice extra on {zwak_onderwerp}"
+    else:
+        uitleg = "Student is performing well"
+        advies = "Keep practicing"
+
+    return render_template(
+        "leerlingdetail.html",
+        leerling=leerling,
+        resultaten=resultaten,
+        fouten=fouten,
+        categorieen=categorieen,
+        zwak_onderwerp=zwak_onderwerp,
+        uitleg=uitleg,
+        advies=advies
+    )
 
 
 def ensure_oefenopgaven_table():
