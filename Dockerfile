@@ -11,4 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Use gunicorn for production deployment
-CMD ["gunicorn", "-b", "0.0.0.0:${PORT}", "app:create_app()"]
+CMD ["gunicorn", "-b", "0.0.0.0:$PORT", "app:create_app()"]
+
