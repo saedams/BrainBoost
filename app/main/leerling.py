@@ -94,6 +94,7 @@ class LeerlingDetailController:
         return render_template("leerlingdetail.html", **context)
 
 
+
 class LeerlingRoutes:
     """Object-georiënteerde router voor leerling-gerelateerde pagina's."""
 
