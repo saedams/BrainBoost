@@ -11,4 +11,4 @@ test_job:
   script:
     - python -m pip install --upgrade pip
     - python -m pip install --no-cache-dir -r requirements.txt
-    - python -m pytest tests/test_fout_analyse_service.py -v
+    - python -m pytest -q

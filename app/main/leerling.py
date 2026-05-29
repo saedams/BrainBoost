@@ -1,14 +1,11 @@
-from flask import render_template
+from flask import render_template, redirect, url_for, flash
 from app.db import execute_query
 from app.models.leerling import Leerling
 from app.services.fout_analyse_service import FoutAnalyseService
 
 
 class LeerlingDetailService:
-    """
-    Service voor het ophalen van alle data die de leerling detail pagina nodig heeft.
-    """
-
+    """Service voor het ophalen van data voor de leerling-detailpagina."""
 
     def __init__(self, leerling_id):
         self.leerling = Leerling.from_id(leerling_id)
@@ -69,6 +66,7 @@ class LeerlingDetailService:
         fouten = self.leerling.get_fouten()
         categorieen = self.leerling.group_fouten_by_categorie(fouten)
         uitleg, advies = self.leerling.get_advies(resultaten)
+        zwak_onderwerp, _ = self.leerling.find_zwak_onderwerp(resultaten)
         foutanalyse = self.get_foutanalyse_data()
         score_info = self.get_score_info()
 
@@ -77,7 +75,7 @@ class LeerlingDetailService:
             "resultaten": resultaten,
             "fouten": fouten,
             "categorieen": categorieen,
-            "zwak_onderwerp": self.leerling.find_zwak_onderwerp(resultaten)[0],
+            "zwak_onderwerp": zwak_onderwerp,
             "uitleg": uitleg,
             "advies": advies,
             "foutanalyse": foutanalyse,
@@ -85,11 +83,8 @@ class LeerlingDetailService:
         }
 
 
-
 class LeerlingDetailController:
-    """
-    Controller voor de leerling detail route.
-    """
+    """Controller voor de leerling detail route."""
 
     def __init__(self, leerling_id):
         self.service = LeerlingDetailService(leerling_id)
@@ -97,3 +92,47 @@ class LeerlingDetailController:
     def render(self):
         context = self.service.get_context()
         return render_template("leerlingdetail.html", **context)
+
+
+class LeerlingRoutes:
+    """Object-georiënteerde router voor leerling-gerelateerde pagina's."""
+
+    def __init__(self, blueprint):
+        self.bp = blueprint
+        self.register_routes()
+
+    def register_routes(self):
+        self.bp.add_url_rule("/leerlingen", endpoint="leerlingen", view_func=self.leerlingen)
+        self.bp.add_url_rule("/leerling", endpoint="leerling_redirect", view_func=self.leerling_redirect)
+        self.bp.add_url_rule(
+            "/leerling/<int:leerling_id>",
+            endpoint="leerling_detail",
+            view_func=self.leerling_detail
+        )
+
+    def leerlingen(self):
+        """Overzicht van alle leerlingen."""
+        leerlingen = execute_query("SELECT id, naam, klas FROM leerling")
+        klassen = sorted({l.get("klas") for l in leerlingen if l.get("klas") is not None})
+        return render_template(
+            "leerlingen.html",
+            leerlingen=leerlingen,
+            klassen=klassen
+        )
+
+    def leerling_redirect(self):
+        """Redirect naar overzicht als geen ID is opgegeven."""
+        return redirect(url_for('main.leerlingen'))
+
+    def leerling_detail(self, leerling_id):
+        """Detailpagina van één leerling."""
+        try:
+            controller = LeerlingDetailController(leerling_id)
+            return controller.render()
+        except ValueError:
+            flash(f"Leerling met id {leerling_id} niet gevonden", "error")
+            return redirect(url_for('main.leerlingen'))
+        except Exception as exc:
+            print(f"❌ Fout in leerling_detail route: {exc}")
+            flash("Er ging iets mis bij het laden van de leerling.", "error")
+            return redirect(url_for('main.leerlingen'))

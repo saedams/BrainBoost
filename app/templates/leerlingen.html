@@ -1,39 +1,4 @@
-<!--
-  Template: leerlingen.html
-  Purpose: Overview of all students with search/filter capabilities (docent-only)
-  
-  Description:
-    Shows list of all students. Teacher can filter by name and class.
-    Click on student to view detail page (/leerling/<id>).
-    Filter functionality via JavaScript (client-side, real-time).
-  
-  Extends: base.html
-  
-  Template variables (from routes.py):
-    - leerlingen (list[dict]): All students with id, naam, klas
-    - klassen (list[str]): Unique, sorted class list
-  
-  HTML Elements:
-    - #searchInput: Search bar (text input)
-    - #klasFilter: Class dropdown select
-    - #leerlingenLijst: Unordered list of students
-    - .leerling-item: List item with data-attributes
-    - .leerling-link: Link to detail page
-  
-  JavaScript Function: filterLeerlingen()
-    - Read values: searchInput + klasFilter
-    - Algorithm: Show item if (naam/klas contains search) AND (klas == filter)
-    - Performance: O(n) per keystroke, acceptable for < 500 students
-  
-  CSS Classes:
-    - .search-panel: Container for search/filter controls
-    - .search-input: Search bar section
-    - .filter-input: Dropdown filter section
-    - .leerlingen-lijst: UL list styling
-    - .leerling-item: LI item styling
-    - .leerling-klas: Class badge styling
-    - .leerling-link: Link styling
--->
+
 {% extends "base.html" %}
 
 {% block title %}Leerlingen{% endblock %}
