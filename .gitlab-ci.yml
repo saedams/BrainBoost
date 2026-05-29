@@ -1,29 +1,14 @@
-# Simpele GitLab CI/CD pipeline voor schoolproject
-# Draait automatisch bij push en test en deployt daarna naar railway
+﻿# Simpele GitLab CI/CD pipeline voor schoolproject
+# Draait automatisch bij push
+
+image: python:3.10
 
 stages:
   - test
-  - deploy
 
-# Test job: draait pytest om de tests uit te voeren
 test_job:
-  image: python:3.10
   stage: test
   script:
     - python -m pip install --upgrade pip
     - python -m pip install --no-cache-dir -r requirements.txt
-
-    - python -m pytest tests/test_fout_analyse_service.py -v
-
-# Deploy job: gebruikt node image om te deployen naar Railway
-deploy_to_railway:
-  image: node:latest
-  stage: deploy
-  only:
-    - main  
-    - master
-  script:
-    - npm install -g @railway/cli
-    # Mijn unieke Project ID is nu toegevoegd
-    - railway up --detach --project 5206b091-0299-4780-998a-249d852588da
-
+    - python -m pytest -q
