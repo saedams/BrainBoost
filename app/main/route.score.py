@@ -201,13 +201,21 @@ class ScoreController:
 # Maak een controller aan
 controller = ScoreController()
 
-# Hier zijn de routes voor Flask
-@bp.route("/score")
-@bp.route("/score/<int:user_id>")
-def score(user_id=None):
-    """
-    Route voor score dashboard.
-    """
-    return controller.render_dashboard(user_id)
+class ScoreRoutes:
+    """Object-georiënteerde router voor het score-dashboard."""
+
+    def __init__(self, blueprint):
+        self.bp = blueprint
+        self.register_routes()
+
+    def register_routes(self):
+        self.bp.add_url_rule("/score", endpoint="score", view_func=self.score)
+        self.bp.add_url_rule("/score/<int:user_id>", endpoint="score_with_id", view_func=self.score)
+
+    def score(self, user_id=None):
+        """Route voor score dashboard."""
+        return controller.render_dashboard(user_id)
+
+ScoreRoutes(bp)
 
 
