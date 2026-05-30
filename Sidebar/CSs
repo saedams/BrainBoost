@@ -1,0 +1,47 @@
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: hwb(215 41% 8%);
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.toggle-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background: hwb(215 41% 8%);
+    color: white;
+    cursor: pointer;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    gap: 12px;
+}
+
+.sidebar.collapsed .label {
+    display: none;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+}
