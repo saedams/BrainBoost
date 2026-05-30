@@ -93,8 +93,6 @@ class LeerlingDetailController:
         context = self.service.get_context()
         return render_template("leerlingdetail.html", **context)
 
-
-
 class LeerlingRoutes:
     """Object-georiënteerde router voor leerling-gerelateerde pagina's."""
 
