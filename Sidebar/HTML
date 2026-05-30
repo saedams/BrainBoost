@@ -1,6 +1,6 @@
 <div class="layout">
     <aside id="sidebar" class="sidebar">
-        <button id="toggle-btn" class="toggle-btn">☰</button>
+            <button id="toggle-btn">☰</button>
 
         <ul class="menu">
             <li>
@@ -22,10 +22,16 @@
 
 
 <script>
-const toggleBtn = document.getElementById("toggle-btn");
-const sidebar = document.getElementById("sidebar");
+document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("toggle-btn");
+    const sidebar = document.getElementById("sidebar");
 
-toggleBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("collapsed");
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("collapsed");
+        });
+    } else {
+        console.log("Sidebar of knop niet gevonden");
+    }
 });
 </script>
