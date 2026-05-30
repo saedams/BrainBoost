@@ -1,0 +1,21 @@
+<div class="layout">
+    <aside id="sidebar" class="sidebar">
+        <button id="toggle-btn" class="toggle-btn">☰</button>
+
+        <ul class="menu">
+            <li>
+                <span class="icon">🏠</span>
+                <span class="label">Dashboard</span>
+            </li>
+            <li>
+                <span class="icon">📊</span>
+                <span class="label">Rapportages</span>
+            </li>
+            <li>
+                <span class="icon">⚙️</span>
+                <span class="label">Instellingen</span>
+            </li>
+        </ul>
+    </aside>
+
+</div>
