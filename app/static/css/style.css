@@ -66,6 +66,32 @@ li {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
   z-index: 100;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+/* Collapsed sidebar state */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+/* Toggle button styling */
+.toggle-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  transition: background 0.2s ease;
+  display: block;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Application branding in sidebar */
@@ -75,6 +101,7 @@ li {
   margin-bottom: 20px;
   color: #305e9f;
   letter-spacing: 0.4px;
+  overflow: hidden;
 }
 
 /* Sidebar navigation list */
@@ -88,23 +115,63 @@ li {
 }
 
 .sidebar-list li {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
 }
 
-/* Sidebar navigation links */
+.sidebar-list li:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Icon styling */
+.sidebar-list .icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Label styling */
+.sidebar-list .label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+/* Hide labels when collapsed */
+.sidebar.collapsed .label {
+  display: none;
+}
+
+/* Hide brand text when collapsed */
+.sidebar.collapsed .brand {
+  font-size: 0;
+  padding: 0;
+}
+
+/* Hide toggle button text when collapsed */
+.sidebar.collapsed .toggle-btn {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sidebar navigation links - updated */
 .sidebar-list a {
-  display: block;
   color: #e8ecf3;
   text-decoration: none;
   font-size: 17px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 /* Sidebar link hover state */
 .sidebar-list a:hover {
-  background: rgba(255, 255, 255, 0.12);
   color: #ffffff;
 }
 
@@ -114,6 +181,12 @@ li {
   margin-left: 250px;
   padding: 28px;
   min-height: calc(100vh - 40px);
+  transition: margin-left 0.3s ease;
+}
+
+/* Adjust main content when sidebar is collapsed */
+.sidebar.collapsed ~ .main {
+  margin-left: 86px;
 }
 
 input {

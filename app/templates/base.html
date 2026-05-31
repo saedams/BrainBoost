@@ -18,24 +18,50 @@
   <body>
 
     <!-- ===== SIDEBAR NAVIGATION ===== -->
-    <aside class="sidebar">
+    <aside id="sidebar" class="sidebar">
+      <!-- Toggle button -->
+      <button id="toggle-btn" class="toggle-btn" title="Sidebar inklappen/uitklappen">☰</button>
+      
       <!-- Application branding/name -->
-      <div class="brand">Brain Boost</div>
+      <div class="brand"><span class="label">Brain Boost</span></div>
       
       <!-- Navigation menu list -->
-      <ul class="sidebar-list">
-        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-        <li><a href="{{ url_for('events.index') }}">Events</a></li>
-        <li><a href="{{ url_for('main.fout_analyse', leerling_id=current_leerling_id) }}">Foutenanalyse</a></li>
-        <li><a href="{{ url_for('main.aanbevelingen', leerling_id=current_leerling_id) }}">Aanbevelingen</a></li>
-        <li><a href="{{ url_for('main.leerlingen', leerling_id=current_leerling_id) }}">leerling </a></li>
-         <li><a href="{{ url_for('main.score', leerling_id=current_leerling_id) }}">Score</a></li>
-        <li><a href="{{ url_for('contact.contact') }}">Contact & Support</a></li>
+      <ul class="sidebar-list menu">
+        <li>
+          <span class="icon">🏠</span>
+          <span class="label"><a href="{{ url_for('main.index') }}">Home</a></span>
+        </li>
+        <li>
+          <span class="icon">📅</span>
+          <span class="label"><a href="{{ url_for('events.index') }}">Events</a></span>
+        </li>
+        <li>
+          <span class="icon">📊</span>
+          <span class="label"><a href="{{ url_for('main.fout_analyse', leerling_id=current_leerling_id) }}">Foutenanalyse</a></span>
+        </li>
+        <li>
+          <span class="icon">💡</span>
+          <span class="label"><a href="{{ url_for('main.aanbevelingen', leerling_id=current_leerling_id) }}">Aanbevelingen</a></span>
+        </li>
+        <li>
+          <span class="icon">👥</span>
+          <span class="label"><a href="{{ url_for('main.leerlingen', leerling_id=current_leerling_id) }}">Leerlingen</a></span>
+        </li>
+        <li>
+          <span class="icon">⭐</span>
+          <span class="label"><a href="{{ url_for('main.score', leerling_id=current_leerling_id) }}">Score</a></span>
+        </li>
+        <li>
+          <span class="icon">💬</span>
+          <span class="label"><a href="{{ url_for('contact.contact') }}">Contact & Support</a></span>
+        </li>
        
-        
         <!-- Logout link (only if logged in) -->
         {% if session.get('role') %}
-          <li><a href="{{ url_for('main.logout') }}">Uitloggen ({{ session.get('role') }})</a></li>
+          <li>
+            <span class="icon">🚪</span>
+            <span class="label"><a href="{{ url_for('main.logout') }}">Uitloggen ({{ session.get('role') }})</a></span>
+          </li>
         {% endif %}
       </ul>
     </aside>
@@ -56,5 +82,61 @@
       <footer></footer>
     </main>
 
+    <!-- JavaScript for sidebar toggle functionality -->
+    <script>
+      // Function to play a click sound
+      function playClickSound() {
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.value = 800; // 800 Hz frequency
+          oscillator.type = 'sine';
+          
+          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+          
+          oscillator.start(audioContext.currentTime);
+          oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+          // Audio context not available, continue without sound
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("toggle-btn");
+        const sidebar = document.getElementById("sidebar");
+
+        if (toggleBtn && sidebar) {
+          toggleBtn.addEventListener("click", function () {
+            playClickSound();
+            sidebar.classList.toggle("collapsed");
+            // Save the state in localStorage
+            const isCollapsed = sidebar.classList.contains("collapsed");
+            localStorage.setItem("sidebarCollapsed", isCollapsed);
+          });
+
+          // Restore the sidebar state from localStorage
+          const wasCollapsed = localStorage.getItem("sidebarCollapsed") === "true";
+          if (wasCollapsed) {
+            sidebar.classList.add("collapsed");
+          }
+        } else {
+          console.log("Sidebar of knop niet gevonden");
+        }
+
+        // Add click sound to all sidebar links
+        const sidebarLinks = document.querySelectorAll('.sidebar-list a');
+        sidebarLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            playClickSound();
+          });
+        });
+      });
+    </script>
   </body>
 </html>

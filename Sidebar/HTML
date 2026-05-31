@@ -1,0 +1,78 @@
+<!-- Main page layout container -->
+<div class="layout">
+
+    <!-- Collapsible sidebar -->
+    <aside id="sidebar" class="sidebar">
+
+        <!-- Button used to collapse and expand the sidebar -->
+        <button id="toggle-btn" aria-expanded="false" aria-controls="sidebar">
+            ☰
+        </button>
+
+        <!-- Navigation menu -->
+        <ul class="menu">
+
+            <!-- Dashboard menu item -->
+            <li>
+                <span class="icon">&#127968;</span>
+                <span class="label">Dashboard</span>
+            </li>
+
+            <!-- Reports menu item -->
+            <li>
+                <span class="icon">&#128202;</span>
+                <span class="label">Reports</span>
+            </li>
+
+            <!-- Settings menu item -->
+            <li>
+                <span class="icon">&#9881;</span>
+                <span class="label">Settings</span>
+            </li>
+
+        </ul>
+    </aside>
+
+</div>
+
+<script>
+/*
+ * Wait until the entire HTML document has been loaded.
+ * This ensures that all elements are available before
+ * attempting to access them.
+ */
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Get a reference to the toggle button
+    const toggleBtn = document.getElementById("toggle-btn");
+
+    // Get a reference to the sidebar
+    const sidebar = document.getElementById("sidebar");
+
+    // Verify that both elements exist
+    if (toggleBtn && sidebar) {
+
+        // Add a click event listener to the button
+        toggleBtn.addEventListener("click", function () {
+
+            // Toggle sidebar visual state
+            sidebar.classList.toggle("collapsed");
+            
+            // Update accessibility state
+            const isCollapsed = sidebar.classList.contains("collapsed");
+            toggleBtn.setAttribute("aria-expanded", !isCollapsed);
+        });
+
+    } else {
+
+        // Log an error message if the elements cannot be found
+        console.log("Sidebar or toggle button not found");
+    }
+});
+</script>
+
+
+
+
+/* For Aria-expanded i used this source:https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded
+And for the emojis i used: https://www.w3schools.com/charsets/ref_emoji_office.asp*/
