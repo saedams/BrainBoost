@@ -109,8 +109,15 @@ class LeerlingRoutes:
             view_func=self.leerling_detail
         )
 
-        
-        
+    def leerlingen(self):
+        """Overzicht van alle leerlingen."""
+        leerlingen = execute_query("SELECT id, naam, klas FROM leerling")
+        klassen = sorted({l.get("klas") for l in leerlingen if l.get("klas") is not None})
+        return render_template(
+            "leerlingen.html",
+            leerlingen=leerlingen,
+            klassen=klassen
+        )
         
     def leerling_redirect(self):
         """Redirect naar overzicht als geen ID is opgegeven."""
