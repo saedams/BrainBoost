@@ -119,7 +119,6 @@ class LeerlingRoutes:
             klassen=klassen
         )
         
-        
     def leerling_redirect(self):
         """Redirect naar overzicht als geen ID is opgegeven."""
         return redirect(url_for('main.leerlingen'))
