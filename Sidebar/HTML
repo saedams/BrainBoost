@@ -70,3 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
+
+
+
+
+/* For Aria-expanded i used this source:https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-expanded
+And for the emojis i used: https://www.w3schools.com/charsets/ref_emoji_office.asp*/
