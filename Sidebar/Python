@@ -1,10 +1,17 @@
 from flask import Flask, render_template
 
+# Create the Flask application
 app = Flask(__name__)
 
+# Route for the homepage
 @app.route("/")
 def dashboard():
+    """
+    Render the main dashboard page.
+    """
     return render_template("dashboard.html")
 
+# Run the application when this file is executed directly
 if __name__ == "__main__":
+    # Start development server with debug mode enabled
     app.run(debug=True)

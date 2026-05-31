@@ -1,37 +1,70 @@
+<!-- Main page layout container -->
 <div class="layout">
-    <aside id="sidebar" class="sidebar">
-            <button id="toggle-btn">☰</button>
 
+    <!-- Collapsible sidebar -->
+    <aside id="sidebar" class="sidebar">
+
+        <!-- Button used to collapse and expand the sidebar -->
+        <button id="toggle-btn">☰</button>
+
+        <!-- Navigation menu -->
         <ul class="menu">
+
+            <!-- Dashboard menu item -->
             <li>
                 <span class="icon">🏠</span>
                 <span class="label">Dashboard</span>
             </li>
+
+            <!-- Reports menu item -->
             <li>
                 <span class="icon">📊</span>
-                <span class="label">Rapportages</span>
+                <span class="label">Reports</span>
             </li>
+
+            <!-- Settings menu item -->
             <li>
                 <span class="icon">⚙️</span>
-                <span class="label">Instellingen</span>
+                <span class="label">Settings</span>
             </li>
+
         </ul>
     </aside>
 
 </div>
 
-
 <script>
+/*
+ * Wait until the entire HTML document has been loaded.
+ * This ensures that all elements are available before
+ * attempting to access them.
+ */
 document.addEventListener("DOMContentLoaded", function () {
+
+    // Get a reference to the toggle button
     const toggleBtn = document.getElementById("toggle-btn");
+
+    // Get a reference to the sidebar
     const sidebar = document.getElementById("sidebar");
 
+    // Verify that both elements exist
     if (toggleBtn && sidebar) {
+
+        // Add a click event listener to the button
         toggleBtn.addEventListener("click", function () {
+
+            /*
+             * Toggle the 'collapsed' CSS class.
+             * If the class exists it will be removed,
+             * otherwise it will be added.
+             */
             sidebar.classList.toggle("collapsed");
         });
+
     } else {
-        console.log("Sidebar of knop niet gevonden");
+
+        // Log an error message if the elements cannot be found
+        console.log("Sidebar or toggle button not found");
     }
 });
 </script>

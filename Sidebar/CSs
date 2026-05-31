@@ -1,8 +1,10 @@
+/* Main page layout using Flexbox */
 .layout {
     display: flex;
     min-height: 100vh;
 }
 
+/* Default sidebar styling */
 .sidebar {
     width: 250px;
     background: hwb(215 41% 8%);
@@ -11,10 +13,12 @@
     overflow: hidden;
 }
 
+/* Sidebar width when collapsed */
 .sidebar.collapsed {
     width: 70px;
 }
 
+/* Toggle button used to collapse/expand the sidebar */
 .toggle-btn {
     width: 100%;
     padding: 15px;
@@ -24,12 +28,14 @@
     cursor: pointer;
 }
 
+/* Navigation menu container */
 .menu {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
+/* Individual menu items */
 .menu li {
     display: flex;
     align-items: center;
@@ -37,10 +43,12 @@
     gap: 12px;
 }
 
+/* Hide menu labels when the sidebar is collapsed */
 .sidebar.collapsed .label {
     display: none;
 }
 
+/* Main content area */
 .content {
     flex: 1;
     padding: 20px;
