@@ -60,7 +60,7 @@
         {% if session.get('role') %}
           <li>
             <span class="icon">🚪</span>
-            <span class="label"><a href="{{ url_for('main.logout') }}">Uitloggen ({{ session.get('role') }})</a></span>
+            <span class="label"><a href="{{ url_for('login.logout') }}">Uitloggen ({{ session.get('role') }})</a></span>
           </li>
         {% endif %}
       </ul>

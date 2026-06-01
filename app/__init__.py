@@ -1,6 +1,6 @@
 """Entry point for Flask application"""
 
-from flask import Flask
+from flask import Flask, request, redirect, url_for, session
 
 from app.events import bp as events_bp
 from app.main import bp as main_bp
@@ -15,9 +15,28 @@ def create_app():
 
     app.config.from_pyfile("settings.py")
 
+    from app.login import bp as login_bp
+
+    app.register_blueprint(login_bp)
     app.register_blueprint(main_bp)
     app.register_blueprint(events_bp, url_prefix="/events")
     app.register_blueprint(contact_bp)
+
+    @app.before_request
+    def require_login():
+        allowed_endpoints = {
+            "login.login",
+            "login.verify",
+            "login.reset",
+            "login.logout",
+            "static",
+        }
+
+        if request.endpoint in allowed_endpoints:
+            return
+
+        if session.get("user") is None:
+            return redirect(url_for("login.login"))
 
     # Maak `current_leerling_id` beschikbaar in alle templates
     from app.utils.student_helper import get_current_leerling_id

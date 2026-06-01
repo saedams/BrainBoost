@@ -35,6 +35,85 @@
     - form inputs: Rounded borders, 250px width
 */
 
+/* Authentication pages */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f5fc;
+}
+
+.auth-card {
+  width: min(420px, calc(100% - 40px));
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(38, 60, 98, 0.12);
+  text-align: center;
+}
+
+.auth-card h2 {
+  margin: 0 0 20px;
+  font-size: 28px;
+  color: #1f3b6c;
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #c9d5e9;
+  background: #f8fbff;
+  font-size: 16px;
+}
+
+.auth-form button {
+  background-color: #1f3b6c;
+  color: white;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.auth-form button:hover {
+  background-color: #15407f;
+}
+
+.auth-footer {
+  margin-top: 20px;
+}
+
+.auth-footer a {
+  color: #1f3b6c;
+  text-decoration: none;
+}
+
+.error-message,
+.success-message {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.error-message {
+  background: #fdecea;
+  color: #c0281f;
+}
+
+.success-message {
+  background: #e8f6ed;
+  color: #1f6b34;
+}
+
 h1 {
   text-align: center;
   color: whitesmoke;
