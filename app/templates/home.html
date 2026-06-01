@@ -23,9 +23,16 @@
         <p>Ga snel naar je belangrijkste pagina's.</p>
         <ul class="overzicht-links">
             <li><a href="{{ url_for('main.fout_analyse') }}">Foutenanalyse</a></li>
+        </ul>
+        <p>
+            <a class="button-link" href="{{ url_for('main.widget_preferences') }}">
+                Dashboard widgets bewerken
+            </a>
+        </p>
     </div>
 
     <div class="grid">
+        {% if 'scores' in visible_widget_slugs %}
         <div class="card">
             <h2>Score Overzicht</h2>
             <div class="score-circle">
@@ -33,7 +40,9 @@
             </div>
             <canvas id="trendChart"></canvas>
         </div>
+        {% endif %}
 
+        {% if 'vaardigheden' in visible_widget_slugs %}
         <div class="card">
             <h2>Vaardigheden</h2>
             <div class="skills-container">
@@ -62,7 +71,9 @@
                 {% endfor %}
             </div>
         </div>
+        {% endif %}
 
+        {% if 'foutenanalyse' in visible_widget_slugs %}
         <div class="card">
             <h2>Meest gemaakte fouten</h2>
             {% if fouten %}
@@ -82,11 +93,21 @@
             {% endif %}
             <a href="{{ url_for('main.fout_analyse') }}">Bekijk alles</a>
         </div>
+        {% endif %}
 
+        {% if 'aanbevelingen' in visible_widget_slugs %}
         <div class="card aanbeveling">
-            <h2>Aanbeveling</h2>
+            <h2>Aanbevelingen</h2>
             <p>{{ aanbeveling }}</p>
         </div>
+        {% endif %}
+
+        {% if not visible_widget_slugs %}
+        <div class="card">
+            <h2>Dashboard leeg</h2>
+            <p>Je hebt nog geen widgets geselecteerd. Pas je dashboard aan via <a href="{{ url_for('main.widget_preferences') }}">widget instellingen</a>.</p>
+        </div>
+        {% endif %}
     </div>
 </div>
 
