@@ -1,9 +1,19 @@
+<!-- Pagina titel voor wachtwoord reset -->
 <h2>Wachtwoord reset</h2>
 
+<!-- Formulier voor het resetten van het wachtwoord -->
 <form method="POST">
-    <input type="email" name="email" placeholder="Email">
-    <input type="text" name="code" placeholder="Reset code">
-    <input type="password" name="new_password" placeholder="Nieuw wachtwoord">
 
+    <!-- Email invoerveld: om account te identificeren -->
+    <input type="email" name="email" placeholder="Email" required>
+
+    <!-- Reset code invoerveld: verificatiecode die gebruiker heeft ontvangen -->
+    <input type="text" name="code" placeholder="Reset code" required>
+
+    <!-- Nieuw wachtwoord invoerveld -->
+    <input type="password" name="new_password" placeholder="Nieuw wachtwoord" required>
+
+    <!-- Submit knop om reset actie te versturen -->
     <button type="submit">Reset</button>
+
 </form>

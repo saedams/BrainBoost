@@ -33,6 +33,12 @@ class WidgetRoutes:
             view_func=self.widget_preferences,
             methods=["GET", "POST"],
         )
+        self.bp.add_url_rule(
+            "/dashboard-widgets",
+            endpoint="dashboard_widgets",
+            view_func=self.widget_preferences,
+            methods=["GET", "POST"],
+        )
 
     def widget_preferences(self):
         """

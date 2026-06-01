@@ -36,10 +36,10 @@
           <span class="icon">💬</span>
           <span class="label"><a href="{{ url_for('contact.contact') }}">Contact & Support</a></span>
         </li>
-        {% else %}
+        {% elif session.get('role') == 'leerling' %}
         <li>
           <span class="icon">🏠</span>
-          <span class="label"><a href="{{ url_for('main.index') }}">Home</a></span>
+          <span class="label"><a href="{{ url_for('main.home') }}">Dashboard</a></span>
         </li>
         <li>
           <span class="icon">📅</span>
@@ -47,19 +47,15 @@
         </li>
         <li>
           <span class="icon">📊</span>
-          <span class="label"><a href="{{ url_for('main.fout_analyse', leerling_id=current_leerling_id) }}">Foutenanalyse</a></span>
+          <span class="label"><a href="{{ url_for('main.fout_analyse') }}">Foutenanalyse</a></span>
         </li>
         <li>
           <span class="icon">💡</span>
-          <span class="label"><a href="{{ url_for('main.aanbevelingen', leerling_id=current_leerling_id) }}">Aanbevelingen</a></span>
-        </li>
-        <li>
-          <span class="icon">👥</span>
-          <span class="label"><a href="{{ url_for('main.leerlingen', leerling_id=current_leerling_id) }}">Leerlingen</a></span>
+          <span class="label"><a href="{{ url_for('main.aanbevelingen') }}">Aanbevelingen</a></span>
         </li>
         <li>
           <span class="icon">⭐</span>
-          <span class="label"><a href="{{ url_for('main.score', leerling_id=current_leerling_id) }}">Score</a></span>
+          <span class="label"><a href="{{ url_for('main.score') }}">Score</a></span>
         </li>
         <li>
           <span class="icon">💬</span>
