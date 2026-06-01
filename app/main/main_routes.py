@@ -97,9 +97,17 @@ class MainRoutes:
             widgets = widget_service.get_available_widgets(leerling_id)
             visible_widget_slugs = {widget.slug for widget in widgets if widget.selected}
 
+            session_user = session.get("user")
+            if isinstance(session_user, dict):
+                user_name = session_user.get("name") or session_user.get("email") or "Jouw Naam"
+            else:
+                user_name = session_user or "Jouw Naam"
+
+            user_initials = "".join([part[0].upper() for part in str(user_name).split() if part])[:2] or "JN"
+
             user = {
-                "name": session.get("user", "Jouw Naam"),
-                "initials": "JN"
+                "name": user_name,
+                "initials": user_initials,
             }
 
             return render_template(

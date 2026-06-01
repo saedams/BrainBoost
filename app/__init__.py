@@ -35,6 +35,28 @@ def create_app():
             "main.leerlingen",
             "main.leerling_redirect",
             "main.leerling_detail",
+            "main.widget_preferences",
+            "contact.contact",
+            "contact.support",
+        })
+
+        leerling_allowed_endpoints = allowed_endpoints.union({
+            "main.index",
+            "main.home",
+            "main.score",
+            "main.score_with_id",
+            "main.foutenanalyse",
+            "main.foutenanalyse_with_id",
+            "main.fout_analyse",
+            "main.aanbevelingen",
+            "main.widget_preferences",
+            "main.dashboard_widgets",
+            "main.oefenen_opgaven",
+            "main.oefenen_opgaven_resultaat",
+            "events.index",
+            "events.create",
+            "events.edit",
+            "events.view",
             "contact.contact",
             "contact.support",
         })
@@ -47,6 +69,9 @@ def create_app():
 
         if session.get("role") == "docent" and request.endpoint not in docent_allowed_endpoints:
             return redirect(url_for("main.leerlingen"))
+        
+        if session.get("role") == "leerling" and request.endpoint not in leerling_allowed_endpoints:
+            return redirect(url_for("main.home"))
 
     # Maak `current_leerling_id` beschikbaar in alle templates
     from app.utils.student_helper import get_current_leerling_id

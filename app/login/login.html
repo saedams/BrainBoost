@@ -4,22 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inloggen</title>
-    <link rel="stylesheet" href="{{ url_for("static", filename="css/style.css") }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
   <body class="auth-page">
     <div class="auth-card">
-      <h2>Docent login</h2>
+      <h1>Inloggen</h1>
       {% if error %}
         <p class="error-message">{{ error }}</p>
       {% endif %}
       <form class="auth-form" method="POST">
-        <input type="email" name="email" placeholder="Email" required />
+        <div class="role-toggle">
+          <label class="role-option">
+            <input type="radio" name="role" value="docent" checked />
+            <span>Docent</span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="leerling" />
+            <span>Leerling</span>
+          </label>
+        </div>
+
+        <input type="email" name="email" placeholder="E-mailadres" required />
         <input type="password" name="password" placeholder="Wachtwoord" required />
-        <button type="submit">Login</button>
+
+        <div class="remember-row">
+          <label>
+            <input type="checkbox" name="remember" />
+            Onthoud mij
+          </label>
+        </div>
+
+        <button type="submit">Inloggen als docent</button>
       </form>
       <p class="auth-footer">
-        <a href="{{ url_for("login.reset") }}">Wachtwoord vergeten?</a>
+        <a href="{{ url_for('login.reset') }}">Wachtwoord vergeten?</a>
       </p>
     </div>
+    <script>
+      const roleRadios = document.querySelectorAll('input[name="role"]');
+      const loginButton = document.querySelector('.auth-form button');
+      function updateLoginButton() {
+        const selectedRole = document.querySelector('input[name="role"]:checked')?.value;
+        loginButton.textContent = selectedRole === 'leerling' ? 'Inloggen als leerling' : 'Inloggen als docent';
+      }
+      roleRadios.forEach((radio) => radio.addEventListener('change', updateLoginButton));
+      updateLoginButton();
+    </script>
   </body>
 </html>

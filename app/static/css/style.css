@@ -38,42 +38,174 @@
 /* Authentication pages */
 .auth-page {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f0f5fc;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: radial-gradient(circle at top left, rgba(238, 245, 255, 0.85) 0%, rgba(244, 249, 255, 0.95) 40%, #f5f8fc 100%);
 }
 
 .auth-card {
-  width: min(420px, calc(100% - 40px));
-  background: #ffffff;
-  padding: 32px;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(38, 60, 98, 0.12);
+  width: min(460px, calc(100% - 40px));
+  background: rgba(255, 255, 255, 0.98);
+  padding: 36px 34px;
+  border-radius: 30px;
+  box-shadow: 0 30px 70px rgba(31, 59, 108, 0.14);
   text-align: center;
+  border: 1px solid rgba(31, 59, 108, 0.08);
 }
 
-.auth-card h2 {
-  margin: 0 0 20px;
-  font-size: 28px;
-  color: #1f3b6c;
+.auth-card h1 {
+  margin: 0 0 22px;
+  font-size: 32px;
+  color: #10264d;
+  letter-spacing: 0.02em;
+}
+
+.error-message {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: #fee8e8;
+  color: #981b1b;
+  font-weight: 600;
 }
 
 .auth-form {
   display: grid;
-  gap: 14px;
+  gap: 18px;
 }
 
 .auth-form input {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid #c9d5e9;
-  background: #f8fbff;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid #d7e0ee;
+  background: #f7fbff;
   font-size: 16px;
+  color: #1f3b6c;
+}
+
+.auth-form input:focus {
+  outline: 2px solid rgba(31, 59, 108, 0.15);
+  border-color: #a4b8d9;
 }
 
 .auth-form button {
+  width: 100%;
+  background-color: #1f3b6c;
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 16px 18px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.auth-form button:hover {
+  background-color: #173a6c;
+  transform: translateY(-1px);
+}
+
+.role-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+  background: #eef4ff;
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid #d7e3f0;
+}
+
+.role-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 16px;
+  padding: 14px 16px;
+  font-weight: 700;
+  color: #1f3b6c;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.role-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.role-option span {
+  width: 100%;
+  display: inline-block;
+  padding: 6px 0;
+}
+
+.role-option input:checked + span {
+  background: linear-gradient(135deg, #1f3b6c, #183060);
+  color: #ffffff;
+  border-radius: 14px;
+}
+
+.role-option:hover {
+  background: rgba(31, 59, 108, 0.06);
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 4px;
+  color: #4f5f7f;
+}
+
+.remember-row label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.96rem;
+}
+
+.remember-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: #1f3b6c;
+}
+
+.auth-footer {
+  margin-top: 18px;
+}
+
+.auth-footer a {
+  color: #1f3b6c;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.checkbox-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: #1f3b6c;
+}
+
+.primary-btn {
+  width: 100%;
   background-color: #1f3b6c;
   color: white;
   border: none;
@@ -83,17 +215,8 @@
   font-size: 16px;
 }
 
-.auth-form button:hover {
+.primary-btn:hover {
   background-color: #15407f;
-}
-
-.auth-footer {
-  margin-top: 20px;
-}
-
-.auth-footer a {
-  color: #1f3b6c;
-  text-decoration: none;
 }
 
 .error-message,
@@ -1271,7 +1394,7 @@ De styling zorgt voor een modern dashboard met kaarten, grid layout en duidelijk
     Standaard kaartstijl voor alle onderdelen.
     Witte achtergrond met schaduw en afgeronde hoeken.
     */
-score-page-card {
+.score-page-card {
     background: white;
     border-radius: 16px;
     padding: 20px;
@@ -1309,7 +1432,7 @@ score-page-card {
 /*
     Kleine tekst onder de cirkel (/10).
     */
-score-page-circle-subtext {
+.score-page-circle-subtext {
     margin-top: 5px;
 }
 
@@ -1513,7 +1636,9 @@ Inhoudsgedeelte van dashboard kaarten.
 Dit bevat de eigenlijke data in de kaarten.
 */
 .fout-card-content {
-  /* Basis styling voor kaart inhoud */
+  display: grid;
+  gap: 18px;
+  padding: 10px 0 4px;
 }
 
 /*
@@ -1521,7 +1646,10 @@ Specifieke styling voor de foutendistributie chart kaart.
 Dit is de linkerkaart in de top sectie.
 */
 .fout-chart-card {
-  /* Specifieke styling voor chart kaart */
+  display: grid;
+  gap: 20px;
+  align-items: start;
+  min-height: 360px;
 }
 
 /*
@@ -1540,7 +1668,10 @@ Dit is de rechterkaart in de top sectie.
 Toont de meest voorkomende fouttypes met progress bars.
 */
 .fout-overview-card {
-  /* Specifieke styling voor overzicht kaart */
+  display: grid;
+  gap: 18px;
+  min-height: 360px;
+  align-items: start;
 }
 
 /*
@@ -2031,241 +2162,8 @@ Verdere aanpassingen voor compacte weergave.
     background: red;
     height: 100%;
 }
-.dashboard {
-    padding: 20px;
-}
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.user-circle {
-    background: teal;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.score-circle {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.skill-card {
-    display: flex;
-    justify-content: space-between;
-}
-
-.star.filled {
-    color: gold;
-}
-
-.progress-bar {
-    background: #eee;
-    height: 8px;
-    border-radius: 5px;
-}
-
-.progress {
-    background: red;
-    height: 100%;
-}
-.dashboard {
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.user-circle {
-    background: teal;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.score-circle {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.skill-card {
-    display: flex;
-    justify-content: space-between;
-}
-
-.star.filled {
-    color: gold;
-}
-
-.progress-bar {
-    background: #eee;
-    height: 8px;
-    border-radius: 5px;
-}
-
-.progress {
-    background: red;
-    height: 100%;
-}.dashboard {
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.user-circle {
-    background: teal;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.score-circle {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.skill-card {
-    display: flex;
-    justify-content: space-between;
-}
-
-.star.filled {
-    color: gold;
-}
-
-.progress-bar {
-    background: #eee;
-    height: 8px;
-    border-radius: 5px;
-}
-
-.progress {
-    background: red;
-    height: 100%;
-}.dashboard {
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.user-circle {
-    background: teal;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.score-circle {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.skills-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.skill-card {
-    display: flex;
-    justify-content: space-between;
-}
-
-.star.filled {
-    color: gold;
-}
-
-.progress-bar {
-    background: #eee;
-    height: 8px;
-    border-radius: 5px;
-}
-
-.progress {
-    background: red;
-    height: 100%;
-}
-
+/* duplicate dashboard sections removed */
 /* ===== GLOBAL RESPONSIVE ENHANCEMENTS ===== */
 *, *::before, *::after {
   box-sizing: border-box;

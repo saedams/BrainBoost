@@ -175,10 +175,18 @@ class WidgetService:
             rows = []
 
         widgets = []
+        has_selection = any(
+            isinstance(row, dict) and (row.get("selected") == 1 or row.get("selected") == "1")
+            for row in rows
+        )
 
         for row in rows:
             if not isinstance(row, dict):
                 continue
+
+            selected = (row.get("selected") == 1 or row.get("selected") == "1")
+            if not has_selection:
+                selected = True
 
             widgets.append(
                 Widget(
@@ -186,7 +194,7 @@ class WidgetService:
                     name=row.get("name"),
                     slug=row.get("slug"),
                     description=row.get("description"),
-                    selected=(row.get("selected") == 1 or row.get("selected") == "1"),
+                    selected=selected,
                     metadata={
                         "source": "widget_service",
                         "type": "dashboard",

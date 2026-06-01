@@ -16,17 +16,36 @@ def get_auth():
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     if session.get("user"):
+        if session.get("role") == "docent":
+            return redirect(url_for("main.leerlingen"))
         return redirect(url_for("main.home"))
 
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
+        roles = request.form.getlist("role")
+
+        if not roles:
+            return render_template("login.html", error="Selecteer Docent of Leerling.")
 
         auth_instance = get_auth()
-        teacher = auth_instance.login_teacher(email, password)
-        if teacher:
-            session["user"] = teacher
-            session["role"] = teacher.get("role", "docent")
+        
+        user = None
+        role = roles[0]
+        
+        if role == "docent":
+            user = auth_instance.login_teacher(email, password)
+        elif role == "leerling":
+            user = auth_instance.login_student(email, password)
+        
+        if user:
+            session["user"] = user
+            session["role"] = user.get("role", role)
+            if session["role"] == "leerling":
+                session["leerling_id"] = user.get("id")
+            else:
+                session.pop("leerling_id", None)
+
             if session["role"] == "docent":
                 return redirect(url_for("main.leerlingen"))
             return redirect(url_for("main.home"))
