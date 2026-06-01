@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{# Titel van de pagina in de browser-tab / layout #}
+{% block title %}Widget instellingen{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+
+    {# Pagina-header met titel en korte uitleg #}
+    <div class="header">
+        <div>
+            <h1>Widget instellingen</h1>
+            <p>Kies welke inzichten je op je dashboard wilt zien.</p>
+        </div>
+    </div>
+
+    {# Informative card met uitleg over de instellingen #}
+    <div class="card overzicht-card">
+        <p>
+            Alle beschikbare widgets zijn hieronder zichtbaar.
+            Je selectie geldt alleen voor jouw account.
+        </p>
+    </div>
+
+    {# Formulier om widgetvoorkeuren op te slaan (POST naar dezelfde route) #}
+    <form method="post" class="widget-preferences-form">
+
+        {# Grid layout voor alle beschikbare widgets #}
+        <div class="grid widget-grid">
+
+            {# Loop door alle widgets die vanuit de backend zijn meegegeven #}
+            {% for widget in widgets %}
+            <div class="card widget-card">
+
+                {# Checkbox + label voor het aan/uitzetten van een widget #}
+                <label>
+                    <input
+                        type="checkbox"
+                        name="widgets"
+                        value="{{ widget.slug }}"
+                        {% if widget.selected %}checked{% endif %}
+                    >
+                    <strong>{{ widget.name }}</strong>
+                </label>
+
+                {# Korte beschrijving van de widget #}
+                <p>{{ widget.description }}</p>
+            </div>
+            {% endfor %}
+
+        </div>
+
+        {# Actieknoppen onderaan het formulier #}
+        <div class="form-actions">
+            <button type="submit" class="button-link">Opslaan</button>
+
+            {# Terug navigeren zonder wijzigingen op te slaan #}
+            <a href="{{ url_for('main.home') }}" class="button-link">
+                Terug naar dashboard
+            </a>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

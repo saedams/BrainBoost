@@ -1,8 +1,10 @@
 import json
+import traceback
 
 from flask import render_template, session, redirect, url_for, request, flash, jsonify
 from app.db import execute_query
 from app.services.fout_analyse_service import FoutAnalyseService, controller
+from app.services.widget_service import WidgetService
 from app.utils.student_helper import get_current_leerling_id
 
 
@@ -48,14 +50,22 @@ class MainRoutes:
 
     def home(self):
         try:
-            leerling_id = session.get("leerling_id", 1)
+            leerling_id = get_current_leerling_id(None)
 
             try:
                 service = FoutAnalyseService()
                 fa = service.get_fout_analyse_dashboard_data(leerling_id)
-                fa_dict = fa.to_dict() if hasattr(fa, 'to_dict') else dict(fa)
+                if hasattr(fa, 'to_dict'):
+                    fa_dict = fa.to_dict()
+                elif isinstance(fa, dict):
+                    fa_dict = fa
+                else:
+                    fa_dict = {}
+
                 fouten = []
                 for subject, info in fa_dict.get('mistakes_by_subject', {}).items():
+                    if not isinstance(info, dict):
+                        continue
                     fouten.append({
                         'categorie': subject,
                         'percentage': info.get('percentage', 0),
@@ -83,6 +93,10 @@ class MainRoutes:
 
             trend_scores = [6, 6.5, 6.2, 7]
 
+            widget_service = WidgetService()
+            widgets = widget_service.get_available_widgets(leerling_id)
+            visible_widget_slugs = {widget.slug for widget in widgets if widget.selected}
+
             user = {
                 "name": session.get("user", "Jouw Naam"),
                 "initials": "JN"
@@ -95,10 +109,12 @@ class MainRoutes:
                 skills=skills,
                 gemiddelde_score=gemiddelde_score,
                 trend_scores=trend_scores,
-                user=user
+                user=user,
+                visible_widget_slugs=visible_widget_slugs,
             )
         except Exception as e:
             print(f"❌ Fout in home route: {e}")
+            traceback.print_exc()
             flash(f"Fout: {str(e)}", "error")
             return redirect(url_for('main.index'))
 
