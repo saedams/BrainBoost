@@ -4,8 +4,10 @@
 
 {% block content %}
 
+<!-- Hoofdcontainer van het dashboard -->
 <div class="dashboard">
 
+    <!-- Header sectie -->
     <div class="header">
         <div>
             <h1>Dashboard</h1>
@@ -13,12 +15,17 @@
         </div>
     </div>
 
+    <!-- Snelle navigatie / overzichtskaart -->
     <div class="card overzicht-card">
         <h2>Pagina overzicht</h2>
         <p>Ga snel naar je belangrijkste pagina's.</p>
+
         <ul class="overzicht-links">
+            <!-- Link naar foutenanalyse pagina -->
             <li><a href="{{ url_for('main.fout_analyse') }}">Foutenanalyse</a></li>
         </ul>
+
+        <!-- Link naar widget instellingen -->
         <p>
             <a class="button-link" href="{{ url_for('main.widget_preferences') }}">
                 Dashboard widgets bewerken
@@ -26,24 +33,37 @@
         </p>
     </div>
 
+    <!-- Grid met dynamische widgets -->
     <div class="grid">
+
+        <!-- SCORE WIDGET -->
         {% if 'scores' in visible_widget_slugs %}
         <div class="card">
             <h2>Score Overzicht</h2>
+
+            <!-- Gemiddelde score visual -->
             <div class="score-circle">
                 {{ gemiddelde_score }}/10
             </div>
+
+            <!-- Chart.js grafiek -->
             <canvas id="trendChart"></canvas>
         </div>
         {% endif %}
 
+        <!-- VAARDIGHEDEN WIDGET -->
         {% if 'vaardigheden' in visible_widget_slugs %}
         <div class="card">
             <h2>Vaardigheden</h2>
+
             <div class="skills-container">
+
+                <!-- Loop door skills -->
                 {% for skill in skills %}
                 <div class="skill-card">
                     <h3>{{ skill.name }}</h3>
+
+                    <!-- Score als sterren -->
                     <div class="stars">
                         {% for i in range(1,6) %}
                             {% if i <= skill.score %}
@@ -53,6 +73,8 @@
                             {% endif %}
                         {% endfor %}
                     </div>
+
+                    <!-- Trend indicator -->
                     <div class="trend">
                         {% if skill.trend == "up" %}
                             omhoog
@@ -64,32 +86,43 @@
                     </div>
                 </div>
                 {% endfor %}
+
             </div>
         </div>
         {% endif %}
 
+        <!-- FOUTENANALYSE WIDGET -->
         {% if 'foutenanalyse' in visible_widget_slugs %}
         <div class="card">
             <h2>Meest gemaakte fouten</h2>
+
             {% if fouten %}
+                <!-- Loop door fouten categorieën -->
                 {% for fout in fouten %}
                     <div class="fout-item">
+
                         <div class="fout-header">
                             <strong>{{ fout.categorie }}</strong>
                             <span>{{ fout.percentage }}%</span>
                         </div>
+
+                        <!-- Progress bar visualisatie -->
                         <div class="progress-bar">
                             <div class="progress" style="width: {{ fout.percentage }}%;"></div>
                         </div>
+
                     </div>
                 {% endfor %}
             {% else %}
+                <!-- Geen data fallback -->
                 <p>Geen fouten gevonden.</p>
             {% endif %}
+
             <a href="{{ url_for('main.fout_analyse') }}">Bekijk alles</a>
         </div>
         {% endif %}
 
+        <!-- AANBEVELINGEN WIDGET -->
         {% if 'aanbevelingen' in visible_widget_slugs %}
         <div class="card aanbeveling">
             <h2>Aanbevelingen</h2>
@@ -97,17 +130,26 @@
         </div>
         {% endif %}
 
+        <!-- FALLBACK: geen widgets geselecteerd -->
         {% if not visible_widget_slugs %}
         <div class="card">
             <h2>Dashboard leeg</h2>
-            <p>Je hebt nog geen widgets geselecteerd. Pas je dashboard aan via <a href="{{ url_for('main.widget_preferences') }}">widget instellingen</a>.</p>
+            <p>
+                Je hebt nog geen widgets geselecteerd.
+                Pas je dashboard aan via
+                <a href="{{ url_for('main.widget_preferences') }}">widget instellingen</a>.
+            </p>
         </div>
         {% endif %}
+
     </div>
 </div>
 
+<!-- Chart.js library voor grafiek -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
+/* Trend grafiek data */
 const trendData = {
     labels: ["T1", "T2", "T3", "T4"],
     datasets: [{
@@ -118,6 +160,7 @@ const trendData = {
     }]
 };
 
+/* Render Chart.js line chart */
 new Chart(document.getElementById('trendChart'), {
     type: 'line',
     data: trendData

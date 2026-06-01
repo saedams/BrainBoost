@@ -2,31 +2,54 @@
 <html lang="nl">
   <head>
     <meta charset="UTF-8" />
+    <!-- Zorgt dat de pagina goed schaalt op mobiele apparaten -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Inloggen</title>
+
+    <!-- Externe CSS via Flask static folder -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
+
   <body class="auth-page">
+
+    <!-- Hoofdcontainer voor login kaart -->
     <div class="auth-card">
+
+      <!-- Titel van het inlogscherm -->
       <h1>Inloggen</h1>
+
+      <!-- Foutmelding tonen als die bestaat (van backend) -->
       {% if error %}
         <p class="error-message">{{ error }}</p>
       {% endif %}
+
+      <!-- Login formulier -->
       <form class="auth-form" method="POST">
+
+        <!-- Rol keuze: docent of leerling -->
         <div class="role-toggle">
+          
+          <!-- Docent optie (default geselecteerd) -->
           <label class="role-option">
             <input type="radio" name="role" value="docent" checked />
             <span>Docent</span>
           </label>
+
+          <!-- Leerling optie -->
           <label class="role-option">
             <input type="radio" name="role" value="leerling" />
             <span>Leerling</span>
           </label>
         </div>
 
+        <!-- E-mail input veld -->
         <input type="email" name="email" placeholder="E-mailadres" required />
+
+        <!-- Wachtwoord input veld -->
         <input type="password" name="password" placeholder="Wachtwoord" required />
 
+        <!-- Onthoud mij checkbox -->
         <div class="remember-row">
           <label>
             <input type="checkbox" name="remember" />
@@ -34,21 +57,38 @@
           </label>
         </div>
 
+        <!-- Login knop (tekst wordt dynamisch aangepast via JS) -->
         <button type="submit">Inloggen als docent</button>
       </form>
+
+      <!-- Footer met wachtwoord reset link -->
       <p class="auth-footer">
         <a href="{{ url_for('login.reset') }}">Wachtwoord vergeten?</a>
       </p>
     </div>
+
+    <!-- JavaScript voor dynamisch aanpassen van knoptekst op basis van rol -->
     <script>
       const roleRadios = document.querySelectorAll('input[name="role"]');
       const loginButton = document.querySelector('.auth-form button');
+
+      // Update knoptekst afhankelijk van geselecteerde rol
       function updateLoginButton() {
         const selectedRole = document.querySelector('input[name="role"]:checked')?.value;
-        loginButton.textContent = selectedRole === 'leerling' ? 'Inloggen als leerling' : 'Inloggen als docent';
+        loginButton.textContent =
+          selectedRole === 'leerling'
+            ? 'Inloggen als leerling'
+            : 'Inloggen als docent';
       }
-      roleRadios.forEach((radio) => radio.addEventListener('change', updateLoginButton));
+
+      // Luister naar verandering in radio buttons
+      roleRadios.forEach((radio) =>
+        radio.addEventListener('change', updateLoginButton)
+      );
+
+      // Initialiseer knoptekst bij laden van pagina
       updateLoginButton();
     </script>
+
   </body>
 </html>
