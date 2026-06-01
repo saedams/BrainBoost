@@ -25,33 +25,15 @@ def login():
         auth_instance = get_auth()
         teacher = auth_instance.login_teacher(email, password)
         if teacher:
-            session["temp_user"] = teacher
+            session["user"] = teacher
             session["role"] = teacher.get("role", "docent")
-            auth_instance.generate_2fa(email)
-            return redirect(url_for("login.verify"))
+            if session["role"] == "docent":
+                return redirect(url_for("main.leerlingen"))
+            return redirect(url_for("main.home"))
 
         return render_template("login.html", error="Inloggen mislukt. Controleer je gegevens.")
 
     return render_template("login.html")
-
-
-@bp.route("/verify", methods=["GET", "POST"])
-def verify():
-    user = session.get("temp_user")
-    if not user:
-        return redirect(url_for("login.login"))
-
-    if request.method == "POST":
-        code = request.form.get("code")
-        auth_instance = get_auth()
-        if auth_instance.verify_2fa(user["email"], code):
-            session["user"] = user
-            session.pop("temp_user", None)
-            return redirect(url_for("main.home"))
-
-        return render_template("verify.html", error="Foute code. Probeer opnieuw.")
-
-    return render_template("verify.html")
 
 
 @bp.route("/reset", methods=["GET", "POST"])
@@ -73,5 +55,5 @@ def reset():
 @bp.route("/logout")
 def logout():
     session.pop("user", None)
-    session.pop("temp_user", None)
+    session.pop("role", None)
     return redirect(url_for("login.login"))

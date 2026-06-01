@@ -17,37 +17,12 @@ def login():
         teacher = auth.login_teacher(email, password)
 
         if teacher:
-            session["temp_user"] = teacher
-
-            code = auth.generate_2fa(email)
-            print("2FA CODE:", code)  # demo
-
-            return redirect("/verify")
+            session["user"] = teacher
+            return redirect("/dashboard")
 
         return "Inloggen mislukt"
 
     return render_template("login.html")
-
-
-#2FA
-@app.route("/verify", methods=["GET", "POST"])
-def verify():
-    user = session.get("temp_user")
-
-    if not user:
-        return redirect("/")
-
-    if request.method == "POST":
-        code = request.form["code"]
-
-        if auth.verify_2fa(user["email"], code):
-            session["user"] = user
-            session.pop("temp_user")
-            return redirect("/dashboard")
-
-        return "Foute code"
-
-    return render_template("verify.html")
 
 
 #DASHBOARD DOCENT

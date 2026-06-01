@@ -27,6 +27,16 @@
       
       <!-- Navigation menu list -->
       <ul class="sidebar-list menu">
+        {% if session.get('role') == 'docent' %}
+        <li>
+          <span class="icon">👥</span>
+          <span class="label"><a href="{{ url_for('main.leerlingen') }}">Leerlingen</a></span>
+        </li>
+        <li>
+          <span class="icon">💬</span>
+          <span class="label"><a href="{{ url_for('contact.contact') }}">Contact & Support</a></span>
+        </li>
+        {% else %}
         <li>
           <span class="icon">🏠</span>
           <span class="label"><a href="{{ url_for('main.index') }}">Home</a></span>
@@ -55,6 +65,7 @@
           <span class="icon">💬</span>
           <span class="label"><a href="{{ url_for('contact.contact') }}">Contact & Support</a></span>
         </li>
+        {% endif %}
        
         <!-- Logout link (only if logged in) -->
         {% if session.get('role') %}

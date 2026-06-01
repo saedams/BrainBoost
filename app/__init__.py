@@ -26,17 +26,27 @@ def create_app():
     def require_login():
         allowed_endpoints = {
             "login.login",
-            "login.verify",
             "login.reset",
             "login.logout",
             "static",
         }
+
+        docent_allowed_endpoints = allowed_endpoints.union({
+            "main.leerlingen",
+            "main.leerling_redirect",
+            "main.leerling_detail",
+            "contact.contact",
+            "contact.support",
+        })
 
         if request.endpoint in allowed_endpoints:
             return
 
         if session.get("user") is None:
             return redirect(url_for("login.login"))
+
+        if session.get("role") == "docent" and request.endpoint not in docent_allowed_endpoints:
+            return redirect(url_for("main.leerlingen"))
 
     # Maak `current_leerling_id` beschikbaar in alle templates
     from app.utils.student_helper import get_current_leerling_id
