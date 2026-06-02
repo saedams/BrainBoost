@@ -1156,7 +1156,7 @@ th {
   background-color: #2d6f9a;
 }
 
-/* ===== FOUTENANALYSE CARDS ===== */
+/* ===== BEHEERSINGSNIVEAU CARDS ===== */
 /* Error analysis card styling */
 .fout-card {
   background: #ffffff;
@@ -1474,8 +1474,8 @@ De styling zorgt voor een modern dashboard met kaarten, grid layout en duidelijk
     margin-top: 10px;
 }
 
-/* ===== FOUTENANALYSE PAGINA ===== */
-/* Deze CSS regelt de volledige styling van de foutenanalyse pagina. 
+/* ===== BEHEERSINGSNIVEAU PAGINA ===== */
+/* Deze CSS regelt de volledige styling van de beheersingsniveau pagina. 
 De pagina bevat een dashboard layout met grafieken, filters, aanbevelingen, progress bars en detailkaarten voor fouttypes. */
 
 /* Hoofdcontainer van de pagina */
@@ -1486,7 +1486,7 @@ De pagina bevat een dashboard layout met grafieken, filters, aanbevelingen, prog
 }
 
 /*
-Toont de titel en subtitel van de foutenanalyse pagina.
+Toont de titel en subtitel van de beheersingsniveau pagina.
 Maakt de titel groot, duidelijk en consistent met de Score pagina design.
 Heeft een subtiele blauwe rand eronder voor visuele scheiding.
 */
@@ -1587,7 +1587,7 @@ Heeft hover en focus states voor betere interactie feedback.
 }
 
 /*
-Twee-kolom grid layout voor de top sectie van de foutenanalyse pagina.
+Twee-kolom grid layout voor de top sectie van de beheersingsniveau pagina.
 Links staat de foutendistributie grafiek, rechts het top fouten overzicht.
 Op smaller schermen wordt dit een enkele kolom.
 */
@@ -1599,7 +1599,7 @@ Op smaller schermen wordt dit een enkele kolom.
 }
 
 /*
-Basisstijl voor alle kaarten in het foutenanalyse dashboard.
+Basisstijl voor alle kaarten in het beheersingsniveau dashboard.
 Dit zijn witte kaarten met afgeronde hoeken en subtiele schaduwen.
 Hebben hover effecten voor betere interactie feedback.
 */

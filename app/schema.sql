@@ -80,7 +80,7 @@ CREATE TABLE `fout` (
     FOREIGN KEY (`leerling_id`) REFERENCES `leerling`(`id`)
 );
 
--- Nieuwe tabellen voor Foutenanalyse volgens OOP
+-- Nieuwe tabellen voor Beheersingsniveau volgens OOP
 
 -- Subject tabel voor vakken
 CREATE TABLE `subject` (

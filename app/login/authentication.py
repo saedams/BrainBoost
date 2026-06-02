@@ -18,8 +18,6 @@ class AuthSystem:
         # Opslag voor reset codes per email
         self.reset_codes = {}
 
-        # Opslag voor 2FA / verificatiecodes (niet gebruikt in deze snippet)
-        self.verification_codes = {}
 
     def login_teacher(self, email, password):
         # Controleer login voor docenten via harde lijst

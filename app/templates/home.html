@@ -21,8 +21,8 @@
         <p>Ga snel naar je belangrijkste pagina's.</p>
 
         <ul class="overzicht-links">
-            <!-- Link naar foutenanalyse pagina -->
-            <li><a href="{{ url_for('main.fout_analyse') }}">Foutenanalyse</a></li>
+            <!-- Link naar beheersingsniveau pagina -->
+            <li><a href="{{ url_for('main.beheersing_niveau') }}">Beheersingsniveau</a></li>
         </ul>
 
         <!-- Link naar widget instellingen -->
@@ -91,8 +91,8 @@
         </div>
         {% endif %}
 
-        <!-- FOUTENANALYSE WIDGET -->
-        {% if 'foutenanalyse' in visible_widget_slugs %}
+        <!-- BEHEERSINGSNIVEAU WIDGET -->
+        {% if 'beheersingsniveau' in visible_widget_slugs %}
         <div class="card">
             <h2>Meest gemaakte fouten</h2>
 

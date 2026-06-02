@@ -3,7 +3,7 @@ import traceback
 
 from flask import render_template, session, redirect, url_for, request, flash, jsonify
 from app.db import execute_query
-from app.services.fout_analyse_service import FoutAnalyseService, controller
+from app.services.beheersing_niveau_service import BeheersingNiveauService, controller
 from app.services.widget_service import WidgetService
 from app.utils.student_helper import get_current_leerling_id
 
@@ -27,13 +27,13 @@ class MainRoutes:
             view_func=self.oefenen_opgaven_resultaat,
             methods=["POST"]
         )
-        self.bp.add_url_rule("/foutenanalyse", endpoint="foutenanalyse", view_func=self.foutenanalyse)
+        self.bp.add_url_rule("/beheersingsniveau", endpoint="beheersingsniveau", view_func=self.beheersingsniveau)
         self.bp.add_url_rule(
-            "/foutenanalyse/<int:leerling_id>",
-            endpoint="foutenanalyse_with_id",
-            view_func=self.foutenanalyse
+            "/beheersingsniveau/<int:leerling_id>",
+            endpoint="beheersingsniveau_with_id",
+            view_func=self.beheersingsniveau
         )
-        self.bp.add_url_rule("/fout-analyse", endpoint="fout_analyse", view_func=self.fout_analyse)
+        self.bp.add_url_rule("/beheersing-niveau", endpoint="beheersing_niveau", view_func=self.beheersing_niveau)
         self.bp.add_url_rule(
             "/_debug_current_leerling",
             endpoint="_debug_current_leerling",
@@ -53,8 +53,8 @@ class MainRoutes:
             leerling_id = get_current_leerling_id(None)
 
             try:
-                service = FoutAnalyseService()
-                fa = service.get_fout_analyse_dashboard_data(leerling_id)
+                service = BeheersingNiveauService()
+                fa = service.get_beheersing_niveau_dashboard_data(leerling_id)
                 if hasattr(fa, 'to_dict'):
                     fa_dict = fa.to_dict()
                 elif isinstance(fa, dict):
@@ -73,7 +73,7 @@ class MainRoutes:
                     })
                 aanbeveling = fa_dict.get('recommendation', 'Blijf oefenen!')
             except Exception as e:
-                print(f"⚠️ Fout bij FoutAnalyseService: {e}")
+                print(f"⚠️ Fout bij BeheersingNiveauService: {e}")
                 fouten = []
                 aanbeveling = "Oefenen maakt perfect!"
 
@@ -216,7 +216,7 @@ class MainRoutes:
         self.save_oefenopgaven(score, total_answered, incorrect_answers)
         return jsonify({"ok": True})
 
-    def foutenanalyse(self, leerling_id=None):
+    def beheersingsniveau(self, leerling_id=None):
         if leerling_id is None:
             leerling_id = request.args.get("leerling_id", type=int)
         if leerling_id is None:
@@ -225,7 +225,7 @@ class MainRoutes:
         subject_id = request.args.get("subject_id", type=int)
         return controller.render_dashboard(leerling_id, subject_id)
 
-    def fout_analyse(self):
+    def beheersing_niveau(self):
         subject_id = request.args.get("subject_id", type=int)
         return controller.render_dashboard(None, subject_id)
 

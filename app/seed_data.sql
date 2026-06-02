@@ -22,7 +22,7 @@ VALUES
 (1, 8.5, '2026-03-28 14:30:00'),
 (2, 7.2, '2026-03-29 09:15:00');
 
--- Seed data voor nieuwe tabellen voor Foutenanalyse
+-- Seed data voor nieuwe tabellen voor Beheersingsniveau
 
 -- Insert a sample student
 INSERT INTO leerling (naam, email, wachtwoord_hash) VALUES 

@@ -20,9 +20,9 @@ class WidgetService:
             "description": "Toon of verberg je vaardighedenkaart op het dashboard.",
         },
         {
-            "slug": "foutenanalyse",
-            "name": "Foutenanalyse",
-            "description": "Toon of verberg de foutenanalyse widget.",
+            "slug": "beheersingsniveau",
+            "name": "Beheersingsniveau",
+            "description": "Toon of verberg de beheersingsniveau widget.",
         },
         {
             "slug": "aanbevelingen",
@@ -40,7 +40,7 @@ class WidgetService:
     # automatisch kan worden gemigreerd.
     LEGACY_SLUGS = {
         "skills": "vaardigheden",
-        "mistakes": "foutenanalyse",
+        "mistakes": "beheersingsniveau",
         "recommendation": "aanbevelingen",
     }
 
