@@ -17,7 +17,8 @@ class WidgetController:
 
         De WidgetService wordt lazy-loaded via de service-property.
         """
-        self._service = None
+        # Service zit “verstopt” in de class, wordt niet zomaar extern gebruikt -> Encapsulatie
+        self._service = None 
 
     @property
     def service(self):

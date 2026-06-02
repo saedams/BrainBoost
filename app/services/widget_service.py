@@ -163,11 +163,12 @@ class WidgetService:
                w.description,
                CASE WHEN sw.student_id IS NOT NULL THEN 1 ELSE 0 END AS selected
         FROM dashboard_widget w
-        LEFT JOIN student_widget sw
+        LEFT JOIN student_widget sw 
             ON w.id = sw.widget_id
            AND sw.student_id = ?
         ORDER BY w.id
         """
+        # LEFT JOIN: Geef ALLE widgets terug, en voeg data toe als die bestaat in student_widget
 
         rows = execute_query(query, (user_id,))
 

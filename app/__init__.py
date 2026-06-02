@@ -14,7 +14,7 @@ def create_app():
     # Configuratie-instellingen
     app.config["FLASK_ADMIN_FLUID_LAYOUT"] = True
 
-    # ⚠️ Belangrijk: secret key voor sessions (moet normaal uit env komen)
+    # Belangrijk: secret key voor sessions (moet normaal uit env komen)
     app.config["SECRET_KEY"] = "DokkiePythoniAXRvULKWuFyfURRrG0YTOOTXswLJWpU"
 
     # Templates automatisch herladen bij wijzigingen (dev mode)
