@@ -15,7 +15,6 @@ from flask import Flask
 @pytest.fixture
 def app():
     from app.main import bp as main_bp
-    from app.events import bp as events_bp
     from app.contact import bp as contact_bp
 
     root = Path(__file__).resolve().parents[1]
@@ -25,7 +24,6 @@ def app():
     app.config['TESTING'] = True
     app.secret_key = 'test-secret'
     app.register_blueprint(main_bp)
-    app.register_blueprint(events_bp, url_prefix='/events')
     app.register_blueprint(contact_bp)
     return app
 

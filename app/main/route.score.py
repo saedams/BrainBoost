@@ -196,7 +196,7 @@ class ScoreController:
         user_id = get_current_leerling_id(user_id)
 
         data = self.service.get_dashboard_data(user_id)
-        return render_template("events/score.html", data=data.to_dict())
+        return render_template("score.html", data=data.to_dict())
 
 # Maak een controller aan
 controller = ScoreController()

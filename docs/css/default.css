@@ -21,6 +21,5 @@
 /* BUGFIX: Just make sure labels are always clickable */
 @media screen and (min-width: 76.25em) {
     .md-nav__item--section > .md-nav__link {
-        pointer-events: all !important;
     }
 }

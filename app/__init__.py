@@ -2,7 +2,6 @@
 
 from flask import Flask, request, redirect, url_for, session
 
-from app.events import bp as events_bp
 from app.main import bp as main_bp
 from app.contact import bp as contact_bp
 
@@ -29,8 +28,34 @@ def create_app():
     # Blueprints registreren
     app.register_blueprint(login_bp)
     app.register_blueprint(main_bp)
-    app.register_blueprint(events_bp, url_prefix="/events")
     app.register_blueprint(contact_bp)
+
+    # Compatibiliteitsroutes voor oude test- en gebruikersflow
+    import app.auth as auth_wrapper
+
+    @app.route("/", methods=["GET", "POST"])
+    def root_login():
+        if request.method == "POST":
+            email = request.form.get("email")
+            password = request.form.get("password")
+            teacher = auth_wrapper.login_teacher(email, password)
+            if teacher:
+                session["user"] = teacher
+                session["role"] = teacher.get("role", "docent")
+                return redirect(url_for("login.login"))
+            return "Inloggen mislukt"
+        return redirect(url_for("login.login"))
+
+    @app.route("/reset", methods=["GET", "POST"])
+    def root_reset():
+        if request.method == "POST":
+            email = request.form.get("email")
+            code = request.form.get("code")
+            new_password = request.form.get("new_password")
+            if auth_wrapper.reset_password(email, code, new_password):
+                return "Wachtwoord gewijzigd!"
+            return "Reset mislukt"
+        return redirect(url_for("login.reset"))
 
     @app.before_request
     def require_login():
@@ -43,8 +68,11 @@ def create_app():
         # Routes die altijd toegankelijk zijn zonder login
         allowed_endpoints = {
             "login.login",
+            "login.register",
             "login.reset",
             "login.logout",
+            "root_login",
+            "root_reset",
             "static",
         }
 
@@ -66,16 +94,11 @@ def create_app():
             "main.score_with_id",
             "main.beheersingsniveau",
             "main.beheersingsniveau_with_id",
-            "main.fout_analyse",
             "main.aanbevelingen",
             "main.widget_preferences",
             "main.dashboard_widgets",
             "main.oefenen_opgaven",
             "main.oefenen_opgaven_resultaat",
-            "events.index",
-            "events.create",
-            "events.edit",
-            "events.view",
             "contact.contact",
             "contact.support",
         })
@@ -115,3 +138,7 @@ def create_app():
         return {"current_leerling_id": lid}
 
     return app
+
+
+# Maak een module-brede Flask-app beschikbaar voor eenvoudige import.
+app = create_app()

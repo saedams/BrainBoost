@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Aanbevelingen{% endblock %}
+
+{% block content %}
+<div class="recommendations-page">
+    <header class="recommendations-header">
+        <h1>Aanbevelingen</h1>
+        <p>Hier vind je persoonlijke oefeningen en tips om je leerdoelen te halen.</p>
+    </header>
+
+    <section class="recommendations-cards">
+        {% for card in cards %}
+            <article class="recommendation-card">
+                <h2>{{ card.title }}</h2>
+                <p>{{ card.description }}</p>
+                <div class="recommendation-meta">
+                    <span>{{ card.time }} min</span>
+                    <span>{{ card.exercises }} oefeningen</span>
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+
+    <section class="recommendations-completed">
+        <h2>Voltooide oefeningen</h2>
+        <ul>
+            {% for item in completed %}
+                <li>{{ item.title }} — Score: {{ item.score }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section class="recommendations-upcoming">
+        <h2>Aankomende activiteiten</h2>
+        <ul>
+            {% for item in upcoming %}
+                <li>{{ item.title }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}

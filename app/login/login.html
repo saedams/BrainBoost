@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
-  <head>fls
+  <head>
     <meta charset="UTF-8" />
     <!-- Zorgt dat de pagina goed schaalt op mobiele apparaten -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -64,6 +64,9 @@
       <!-- Footer met wachtwoord reset link -->
       <p class="auth-footer">
         <a href="{{ url_for('login.reset') }}">Wachtwoord vergeten?</a>
+      </p>
+      <p class="auth-footer">
+        <a href="{{ url_for('login.register') }}">Nieuw account aanmaken</a>
       </p>
     </div>
 

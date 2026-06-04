@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash
 from app.db import execute_query
 from app.models.leerling import Leerling
-from app.services.fout_analyse_service import FoutAnalyseService
+from app.services.beheersing_niveau_service import BeheersingNiveauService
 
 
 class LeerlingDetailService:
@@ -9,7 +9,7 @@ class LeerlingDetailService:
 
     def __init__(self, leerling_id):
         self.leerling = Leerling.from_id(leerling_id)
-        self.foutanalyse_service = FoutAnalyseService()
+        self.beheersing_niveau_service = BeheersingNiveauService()
 
     def get_score_info(self):
         query = """
@@ -58,8 +58,8 @@ class LeerlingDetailService:
                 trend.append(round((score / max_score) * 10, 1) if max_score else 0.0)
         return trend
 
-    def get_foutanalyse_data(self):
-        return self.foutanalyse_service.get_fout_analyse_dashboard_data(self.leerling.id).to_dict()
+    def get_beheersing_niveau_data(self):
+        return self.beheersing_niveau_service.get_beheersing_niveau_dashboard_data(self.leerling.id).to_dict()
 
     def get_context(self):
         resultaten = self.leerling.get_resultaten()
@@ -67,7 +67,7 @@ class LeerlingDetailService:
         categorieen = self.leerling.group_fouten_by_categorie(fouten)
         uitleg, advies = self.leerling.get_advies(resultaten)
         zwak_onderwerp, _ = self.leerling.find_zwak_onderwerp(resultaten)
-        foutanalyse = self.get_foutanalyse_data()
+        beheersing_niveau = self.get_beheersing_niveau_data()
         score_info = self.get_score_info()
 
         return {
@@ -78,7 +78,7 @@ class LeerlingDetailService:
             "zwak_onderwerp": zwak_onderwerp,
             "uitleg": uitleg,
             "advies": advies,
-            "foutanalyse": foutanalyse,
+            "beheersing_niveau": beheersing_niveau,
             "score_info": score_info,
         }
 

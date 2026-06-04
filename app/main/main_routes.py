@@ -173,7 +173,7 @@ class MainRoutes:
         ]
 
         return render_template(
-            "events/aanbevelingen.html",
+            "aanbevelingen.html",
             menu_items=menu_items,
             subtitle="Persoonlijke oefeningen en aanbevelingen om te verbeteren",
             user=user,

@@ -73,8 +73,7 @@
 
     {% if data.error_message %}
         <div class="score-debug-error">
-            <strong>Debug:</strong> {{ data.error_message }}
-        </div>
+            <strong>Debug:</strong> {{ data.error_message }}</div>
     {% endif %}
 
     <!-- BOTTOM SECTIE: VAKKEN GRID -->
@@ -143,21 +142,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 <script>
-// TREND GRAFIEK INITIALISATIE
-// Deze code maakt een line chart die de scoretrend over tijd toont
-
 (function() {
-    // Verkrijg het canvas element
     const canvas = document.getElementById('trendChart');
 
-    // Maak een nieuwe Chart.js chart aan
     if (canvas && canvas.getContext) {
         new Chart(canvas, {
-            // Type: Line chart voor trendweergave
             type: 'line',
-
-            // CHART DATA
-            // Bevat labels en dataset met trend waarden
             data: {
                 labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'],
                 datasets: [{
@@ -175,16 +165,11 @@
                     pointHoverRadius: 6,
                 }]
             },
-
-            // CHART OPTIES
-            // Configuratie voor de layout en gedrag van de chart
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         padding: 12,
@@ -202,23 +187,12 @@
                         beginAtZero: true,
                         min: 0,
                         max: 10,
-                        ticks: {
-                            stepSize: 2,
-                            font: { size: 12 }
-                        },
-                        grid: {
-                            color: 'rgba(200, 200, 200, 0.15)',
-                            drawBorder: true
-                        }
+                        ticks: { stepSize: 2, font: { size: 12 } },
+                        grid: { color: 'rgba(200, 200, 200, 0.15)', drawBorder: true }
                     },
                     x: {
-                        grid: {
-                            display: false,
-                            drawBorder: true
-                        },
-                        ticks: {
-                            font: { size: 12 }
-                        }
+                        grid: { display: false, drawBorder: true },
+                        ticks: { font: { size: 12 } }
                     }
                 }
             }
@@ -227,6 +201,4 @@
 })();
 </script>
 
-
-{% endblock %} 
-   
+{% endblock %}
